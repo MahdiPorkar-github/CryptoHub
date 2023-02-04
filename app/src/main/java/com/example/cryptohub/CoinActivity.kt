@@ -2,7 +2,7 @@ package com.example.cryptohub
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.cryptohouse.databinding.ActivityCoinBinding
+import com.example.cryptohub.databinding.ActivityCoinBinding
 
 class CoinActivity : AppCompatActivity() {
 
