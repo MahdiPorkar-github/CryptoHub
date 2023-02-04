@@ -91,4 +91,10 @@
         <item name="spark_baseLineColor">@color/colorPrimary</item>
     </style>
 
+
+
+    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
 </resources>

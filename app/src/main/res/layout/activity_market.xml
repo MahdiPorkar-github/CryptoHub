@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MarketActivity">
 
-    <include
-        layout="@layout/module_toolbar" />
 
 
     <FrameLayout
