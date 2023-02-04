@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/miNews"
+        android:icon="@drawable/ic_news"
+        android:title="News" />
+    <item
+        android:id="@+id/miHome"
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
+
+
+    <item
+        android:id="@+id/miConvert"
+        android:icon="@drawable/ic_convert"
+        android:title="Convert" />
+
+</menu>
