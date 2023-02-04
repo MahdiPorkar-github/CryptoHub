@@ -6,7 +6,7 @@ import com.example.cryptohub.databinding.ActivityCoinBinding
 
 class CoinActivity : AppCompatActivity() {
 
-    lateinit var binding : ActivityCoinBinding
+    private lateinit var binding : ActivityCoinBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCoinBinding.inflate(layoutInflater)
