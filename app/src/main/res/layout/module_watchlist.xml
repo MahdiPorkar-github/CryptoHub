@@ -24,7 +24,7 @@
         tools:listitem="@layout/item_recycler_market" />
 
     <View
-        android:id="@+id/viewMain"
+        android:id="@+id/viewWatchList"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="16dp"
@@ -42,6 +42,6 @@
         android:text="More"
         android:textColor="@color/primaryTextColor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewMain" />
+        app:layout_constraintTop_toBottomOf="@+id/viewWatchList" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

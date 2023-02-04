@@ -14,7 +14,7 @@
 
 
     <ImageView
-        android:id="@+id/img_item"
+        android:id="@+id/img_item_market"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:src="@drawable/ic_launcher_background"
@@ -23,13 +23,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txtCoinName"
+        android:id="@+id/txtNewsSource"
         style="@style/CoinBitText.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:text="BTC"
-        app:layout_constraintStart_toEndOf="@+id/img_item"
+        app:layout_constraintStart_toEndOf="@+id/img_item_market"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -40,26 +40,26 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="4dp"
         android:text="CoinBase"
-        app:layout_constraintStart_toEndOf="@+id/img_item"
-        app:layout_constraintTop_toBottomOf="@+id/txtCoinName" />
+        app:layout_constraintStart_toEndOf="@+id/img_item_market"
+        app:layout_constraintTop_toBottomOf="@+id/txtNewsSource" />
 
     <TextView
-        android:id="@+id/txtPrice"
+        android:id="@+id/txtNewsTitle"
         style="@style/CoinBitText.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="$3.185"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/txtCoinName" />
+        app:layout_constraintTop_toTopOf="@+id/txtNewsSource" />
 
     <TextView
-        android:id="@+id/txtMarketCap"
+        android:id="@+id/txtNewsBody"
         style="@style/CoinBitText.Body1Alternate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="$2.4 million"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPrice" />
+        app:layout_constraintTop_toBottomOf="@+id/txtNewsTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
