@@ -19,7 +19,7 @@
         <item name="android:windowBackground">@color/backgroundColor</item>
         <item name="fontFamily">sans-serif-medium</item>
         <item name="spark_SparkViewStyle">@style/MySparkViewStyle</item>
-
+        <item name="android:spinnerItemStyle">@style/mySpinnerItemSelectedStyle</item>
     </style>
 
     <!--- coinbit text style -->
@@ -96,5 +96,10 @@
     <item name="android:textSize">20sp</item>
     <item name="android:textColor">@color/primaryTextColor</item>
 </style>
+
+
+    <style name="mySpinnerItemSelectedStyle" parent="@android:style/Widget.Holo.TextView.SpinnerItem">
+        <item name="android:textColor">@color/quaternaryTextColo</item>
+    </style>
 
 </resources>

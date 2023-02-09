@@ -16,9 +16,9 @@
         android:id="@+id/img_item_news"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:src="@drawable/ic_launcher_background"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/txtNewsSource"
