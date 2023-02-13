@@ -1,33 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:gravity="center"
     android:layout_height="match_parent"
+    android:layout_marginBottom="64dp"
+    android:gravity="center"
     android:orientation="vertical"
     android:paddingHorizontal="32dp">
-
 
 
     <TextView
         style="@style/Toolbar.TitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Converter"
         android:layout_gravity="start"
-        android:textColor="@color/primaryTextColor"
         android:layout_marginVertical="16dp"
+        android:text="Converter"
+        android:textColor="@color/primaryTextColor"
         android:textSize="18sp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:background="@drawable/background_rounded_all">
+        android:background="@drawable/background_rounded_all"
+        android:padding="8dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_origin_currency"
@@ -45,15 +46,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.70" />
+            app:layout_constraintGuide_percent="0.60" />
 
 
         <EditText
-            android:id="@+id/origin_currency_amount"
+            android:id="@+id/edt_origin_currency_amount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="4dp"
             android:background="@drawable/background_rounded_all"
             android:drawableTint="@color/white"
             android:ellipsize="end"
@@ -75,9 +75,9 @@
             android:text="$"
             android:textColor="@color/white"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/origin_currency_amount"
+            app:layout_constraintBottom_toBottomOf="@id/edt_origin_currency_amount"
             app:layout_constraintStart_toEndOf="@id/verticalGuideline"
-            app:layout_constraintTop_toTopOf="@id/origin_currency_amount" />
+            app:layout_constraintTop_toTopOf="@id/edt_origin_currency_amount" />
 
 
         <Spinner
@@ -106,13 +106,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="32dp"
-        android:layout_height="wrap_content"
-        android:paddingEnd="32dp"
-        android:paddingVertical="16dp"
-        android:layout_gravity="center_horizontal|center_vertical"
         android:background="@drawable/bg_exchange_icon"
+        android:paddingVertical="16dp"
+        android:paddingEnd="32dp"
         tools:ignore="RtlSymmetry">
 
         <ImageView
@@ -120,9 +120,9 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginStart="32dp"
-            android:padding="8dp"
             android:background="@drawable/bg_exchange_icon"
             android:orientation="vertical"
+            android:padding="8dp"
             android:src="@drawable/rotate_drawable"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -166,7 +166,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="؟"
+            android:text=""
             android:textColor="@color/tertiaryTextColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/textView2"
@@ -178,7 +178,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="USD"
+            android:text=""
             android:textColor="@color/tertiaryTextColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/destCurrencyRate"
@@ -190,8 +190,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:background="@drawable/background_rounded_all">
+        android:background="@drawable/background_rounded_all"
+        android:padding="8dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_dest_currency"
@@ -209,17 +209,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.70" />
+            app:layout_constraintGuide_percent="0.60" />
 
 
         <TextView
             android:id="@+id/dest_currency_amount"
             android:layout_width="0dp"
-            android:text="1"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="4dp"
             android:background="@drawable/background_rounded_all"
+            android:text="؟"
             android:textAlignment="center"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -264,14 +263,94 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnConvertSite"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
+
+    <Button
+        android:id="@+id/btnConvert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Converter based on european central bank exchange rates"
-        android:textColor="@color/primaryTextColor"/>
+        android:layout_marginTop="64dp"
+        android:text="CONVERT" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        android:paddingVertical="16dp"
+        android:paddingEnd="32dp"
+        tools:ignore="RtlSymmetry">
+
+
+        <TextView
+            android:id="@+id/res_tvOriginAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textSize="20sp"
+            tools:text="؟"
+            android:textColor="@color/tertiaryTextColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/res_tv_origin_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            tools:text="USD"
+            android:textSize="20sp"
+            android:textColor="@color/tertiaryTextColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/res_tvOriginAmount"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textSize="20sp"
+            tools:text="="
+            android:textColor="@color/tertiaryTextColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/res_tv_origin_currency"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        <TextView
+            android:id="@+id/res_destCurrencyAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textSize="20sp"
+            tools:text="؟"
+            android:textColor="@color/tertiaryTextColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textView3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        <TextView
+            android:id="@+id/res_tv_dest_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            tools:text="USD"
+            android:textSize="20sp"
+            android:textColor="@color/tertiaryTextColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/res_destCurrencyAmount"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </LinearLayout>

@@ -5,14 +5,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.cryptohub.App
 import com.example.cryptohub.R
 import com.example.cryptohub.databinding.FragmentConvertBinding
+import com.example.cryptohub.model.GetExchangeResponse
+import com.example.cryptohub.networking.NetworkChecker
+import java.math.RoundingMode
 
 class ConvertFragment : Fragment(R.layout.fragment_convert) {
 
 
     lateinit var binding: FragmentConvertBinding
+    private var destPosition = 0
+    private var originPosition = 0
+    private val remoteApi = App.remoteApi
+    private val exchangeArr = ArrayList<Double>()
+    private val networkChecker by lazy { NetworkChecker(requireContext()) }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -25,6 +36,14 @@ class ConvertFragment : Fragment(R.layout.fragment_convert) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initUi()
+        initListeners()
+
+    }
+
+    private fun initUi() {
+
+
         binding.spOrigin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 adapterView: AdapterView<*>?,
@@ -34,7 +53,9 @@ class ConvertFragment : Fragment(R.layout.fragment_convert) {
             ) {
 
                 setOriginSpinner(adapterView?.getItemAtPosition(position).toString())
-
+                originPosition = position
+                binding.edtOriginCurrencyAmount.setText("")
+                binding.destCurrencyRate.text = ""
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -42,7 +63,6 @@ class ConvertFragment : Fragment(R.layout.fragment_convert) {
             }
 
         }
-
         binding.spDest.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 adapterView: AdapterView<*>?,
@@ -52,6 +72,9 @@ class ConvertFragment : Fragment(R.layout.fragment_convert) {
             ) {
 
                 setDestSpinner(adapterView?.getItemAtPosition(position).toString())
+                destPosition = position
+                binding.destCurrencyAmount.setText("")
+                binding.destCurrencyRate.text = ""
 
             }
 
@@ -60,11 +83,84 @@ class ConvertFragment : Fragment(R.layout.fragment_convert) {
             }
 
         }
+        getExchangeRates()
+
+    }
+
+    private fun initListeners() {
+
+        binding.btnConvert.setOnClickListener {
+            if (checkIfValid()) {
+                convertCurrency(binding.spOrigin.adapter.getItem(originPosition).toString())
+            } else {
+                Toast.makeText(context, "Please Enter The Amount", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    }
+
+    private fun checkIfValid(): Boolean {
+        return binding.edtOriginCurrencyAmount.text.toString() != ""
+    }
+
+    private fun convertCurrency(originCurrency: String) {
+        binding.edtOriginCurrencyAmount.clearFocus()
+        if (originCurrency == "USD") {
+            val result = convertCurrencyFromUSD(
+                binding.edtOriginCurrencyAmount.text.toString().toDouble()
+            )
+            binding.destCurrencyRate.text = exchangeArr[destPosition].toString()
+            binding.destCurrencyAmount.text =
+                result.toBigDecimal().setScale(1, RoundingMode.HALF_UP).toString()
+            binding.resTvOriginAmount.text = binding.edtOriginCurrencyAmount.text.toString()
+            binding.resTvOriginCurrency.text = "USD"
+            binding.textView3.text = "="
+            binding.resDestCurrencyAmount.text =
+                result.toBigDecimal().setScale(1, RoundingMode.HALF_UP).toString()
+            binding.resTvDestCurrency.text = binding.spDest.adapter.getItem(destPosition).toString()
+
+        } else {
+            val temp = convertCurrencyToUSD(
+                binding.edtOriginCurrencyAmount.text.toString().toDouble()
+            )
+            val res = convertCurrencyFromUSD(temp)
+            binding.destCurrencyAmount.text =
+                res.toBigDecimal().setScale(1, RoundingMode.HALF_UP).toString()
+            binding.resTvOriginAmount.text = binding.edtOriginCurrencyAmount.text.toString()
+            binding.resTvOriginCurrency.text = binding.spDest.adapter.getItem(originPosition).toString()
+            binding.textView3.text = "="
+            binding.resDestCurrencyAmount.text =
+                res.toBigDecimal().setScale(1, RoundingMode.HALF_UP).toString()
+            binding.resTvDestCurrency.text = binding.spDest.adapter.getItem(destPosition).toString()
+
+            binding.destCurrencyRate.text =
+                convertCurrencyFromUSD(convertCurrencyToUSD(1.0)).toBigDecimal().setScale(1, RoundingMode.HALF_UP).toString()
+
+            binding.tvDestCurrency.text = binding.spDest.adapter.getItem(destPosition).toString()
+
+
+        }
     }
 
 
-    private fun setOriginSpinner(symbol : String) {
+    private fun convertCurrencyFromUSD(amount: Double): Double {
+        return amount * exchangeArr[destPosition]
+    }
+
+
+    private fun convertCurrencyToUSD(amount: Double): Double {
+        return amount / exchangeArr[originPosition]
+    }
+
+
+    private fun setOriginSpinner(symbol: String) {
         when (symbol) {
+            "USD" -> {
+                binding.originName.text = "US Dollar"
+                binding.originCurrencySymbol.text = "$"
+                binding.imgOriginCurrency.setImageResource(R.drawable.us_flag)
+                binding.tvOriginCurrency.text = "USD"
+            }
             "CAD" -> {
                 binding.originName.text = "Canadian dollar"
                 binding.originCurrencySymbol.text = "CA$"
@@ -272,8 +368,14 @@ class ConvertFragment : Fragment(R.layout.fragment_convert) {
 
     }
 
-    private fun setDestSpinner(symbol : String) {
+    private fun setDestSpinner(symbol: String) {
         when (symbol) {
+            "USD" -> {
+                binding.originName.text = "US Dollar"
+                binding.originCurrencySymbol.text = "$"
+                binding.imgOriginCurrency.setImageResource(R.drawable.us_flag)
+                binding.tvOriginCurrency.text = "USD"
+            }
             "CAD" -> {
                 binding.destName.text = "Canadian dollar"
                 binding.destCurrencySymbol.text = "CA$"
@@ -479,6 +581,60 @@ class ConvertFragment : Fragment(R.layout.fragment_convert) {
             }
         }
 
+    }
+
+    private fun getExchangeRates() {
+
+        networkChecker.performIfConnectedToInternet {
+            remoteApi.getExchangeRates { exchangeResponse ->
+                if (exchangeResponse != null) {
+                    onRatesReceived(exchangeResponse)
+                }
+            }
+        }
+    }
+
+
+    private fun onRatesReceived(exchangeResponse: GetExchangeResponse) {
+        fillExchangeArr(exchangeResponse)
+
+
+    }
+
+    private fun fillExchangeArr(exchangeResponse: GetExchangeResponse) {
+        exchangeArr.apply {
+            add(exchangeResponse.uSD.toDouble())
+            add(exchangeResponse.cAD)
+            add(exchangeResponse.eUR)
+            add(exchangeResponse.hKD)
+            add(exchangeResponse.iSK)
+            add(exchangeResponse.pHP)
+            add(exchangeResponse.dKK)
+            add(exchangeResponse.hUF)
+            add(exchangeResponse.cZK)
+            add(exchangeResponse.aUD)
+            add(exchangeResponse.rON)
+            add(exchangeResponse.sEK)
+            add(exchangeResponse.iDR)
+            add(exchangeResponse.iNR)
+            add(exchangeResponse.bRL)
+            add(exchangeResponse.rUB)
+            add(exchangeResponse.hRK)
+            add(exchangeResponse.jPY)
+            add(exchangeResponse.tHB)
+            add(exchangeResponse.cHF)
+            add(exchangeResponse.sGD)
+            add(exchangeResponse.pLN)
+            add(exchangeResponse.bGN)
+            add(exchangeResponse.cNY)
+            add(exchangeResponse.nOK)
+            add(exchangeResponse.nZD)
+            add(exchangeResponse.zAR)
+            add(exchangeResponse.mXN)
+            add(exchangeResponse.gBP)
+            add(exchangeResponse.kRW)
+            add(exchangeResponse.mYR)
+        }
     }
 
 
