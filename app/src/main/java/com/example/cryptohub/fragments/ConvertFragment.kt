@@ -127,14 +127,16 @@ class ConvertFragment : Fragment(R.layout.fragment_convert) {
             binding.destCurrencyAmount.text =
                 res.toBigDecimal().setScale(1, RoundingMode.HALF_UP).toString()
             binding.resTvOriginAmount.text = binding.edtOriginCurrencyAmount.text.toString()
-            binding.resTvOriginCurrency.text = binding.spDest.adapter.getItem(originPosition).toString()
+            binding.resTvOriginCurrency.text =
+                binding.spDest.adapter.getItem(originPosition).toString()
             binding.textView3.text = "="
             binding.resDestCurrencyAmount.text =
                 res.toBigDecimal().setScale(1, RoundingMode.HALF_UP).toString()
             binding.resTvDestCurrency.text = binding.spDest.adapter.getItem(destPosition).toString()
 
             binding.destCurrencyRate.text =
-                convertCurrencyFromUSD(convertCurrencyToUSD(1.0)).toBigDecimal().setScale(1, RoundingMode.HALF_UP).toString()
+                convertCurrencyFromUSD(convertCurrencyToUSD(1.0)).toBigDecimal()
+                    .setScale(1, RoundingMode.HALF_UP).toString()
 
             binding.tvDestCurrency.text = binding.spDest.adapter.getItem(destPosition).toString()
 
@@ -580,16 +582,13 @@ class ConvertFragment : Fragment(R.layout.fragment_convert) {
                 binding.tvDestCurrency.text = "MYR"
             }
         }
-
     }
 
     private fun getExchangeRates() {
 
         networkChecker.performIfConnectedToInternet {
             remoteApi.getExchangeRates { exchangeResponse ->
-                if (exchangeResponse != null) {
-                    onRatesReceived(exchangeResponse)
-                }
+                onRatesReceived(exchangeResponse)
             }
         }
     }

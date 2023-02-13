@@ -2,7 +2,7 @@ package com.example.cryptohub.networking
 
 import android.util.Log
 import com.example.cryptohub.model.GetExchangeResponse
-import com.example.cryptohub.model.NewsData
+import com.example.cryptohub.model.GetNewsResponse
 import com.google.gson.Gson
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -25,20 +25,29 @@ class RemoteApi(private val apiService: RemoteApiService) {
     private val gson = Gson()
 
 
-//    fun getTopNews(apiCallback: ApiCallback<NewsData.Data>) {
-//
-//        apiService.getTopNews().enqueue(object : Callback<NewsData> {
-//            override fun onResponse(call: Call<NewsData>, response: Response<NewsData>) {
-//                val data = response.body()!!
-//               apiCallback.onSuccess(data.data)
-//            }
-//
-//            override fun onFailure(call: Call<NewsData>, t: Throwable) {
-//                apiCallback.onError(t.message!!)
-//            }
-//
-//        })
-//    }
+
+    fun getTopNews(onNewsReceived : (GetNewsResponse) -> Unit) {
+
+        apiService.getTopNews().enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                val jsonBody = response.body()?.string()
+                if (jsonBody == null) {
+                    Log.v("null", "newsOnResponse is null in onResponse remoteApi")
+                }
+
+                val data = gson.fromJson(jsonBody,GetNewsResponse::class.java)!!
+
+                onNewsReceived(data)
+
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+
 
 
     fun getExchangeRates(
@@ -48,12 +57,10 @@ class RemoteApi(private val apiService: RemoteApiService) {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 val jsonBody = response.body()?.string()
                 if (jsonBody == null) {
-                    Log.v("null", "message is null in onResponse remoteApi")
+                    Log.v("null", "exchangeOnResponse is null in onResponse remoteApi")
                 }
                 val data = gson.fromJson(jsonBody, GetExchangeResponse::class.java)!!
                 onRateReceived(data)
-                Log.v("exchangeResponse",data.toString())
-
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {

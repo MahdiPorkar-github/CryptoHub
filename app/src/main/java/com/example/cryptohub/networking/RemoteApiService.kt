@@ -1,9 +1,7 @@
 package com.example.cryptohub.networking
 
-import com.example.cryptohub.model.NewsData
 import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.*
 
 /**
@@ -15,8 +13,8 @@ interface RemoteApiService {
     @Headers(API_KEY)
     @GET("v2/news/")
     fun getTopNews(
-        @Query("lang") lang: String = "EN"
-    ): Call<NewsData>
+        @Query("lang") lang: String = "EN" , @Query("sortOrder") sortOrder : String = "popular"
+    ): Call<ResponseBody>
 
 
     // get top coins
