@@ -23,7 +23,7 @@ interface RemoteApiService {
     @GET("top/totalvolfull")
     fun getTopCoins(
         @Query("tsym") to_symbol :String = "USD" ,
-        @Query("limit") limit_data :Int = 15
+        @Query("limit") limit_data :Int = 20
     ) :Call<ResponseBody>
 
 

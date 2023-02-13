@@ -1,5 +1,7 @@
 package com.example.cryptohub.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -40,11 +42,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        remoteApi.getTopCoins { coinsResponse ->
-
             initUi()
+            initListeners()
+    }
 
+    private fun initListeners() {
+        binding.layoutWatchlist.btnShowMore.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.livecoinwatch.com/"))
+            startActivity(intent)
         }
+
     }
 
     private fun initUi() {
