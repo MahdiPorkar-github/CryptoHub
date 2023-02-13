@@ -19,6 +19,14 @@ interface RemoteApiService {
 
     // get top coins
 
+    @Headers(API_KEY)
+    @GET("top/totalvolfull")
+    fun getTopCoins(
+        @Query("tsym") to_symbol :String = "USD" ,
+        @Query("limit") limit_data :Int = 15
+    ) :Call<ResponseBody>
+
+
 
     // get exchange rates
     @Headers(API_KEY)

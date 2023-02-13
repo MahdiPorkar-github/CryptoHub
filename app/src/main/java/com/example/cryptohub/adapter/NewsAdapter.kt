@@ -52,4 +52,5 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
     interface NewsEvents {
         fun onNewsItemClicked(news: News)
     }
+
 }

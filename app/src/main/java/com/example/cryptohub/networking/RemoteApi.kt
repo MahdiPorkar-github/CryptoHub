@@ -1,6 +1,7 @@
 package com.example.cryptohub.networking
 
 import android.util.Log
+import com.example.cryptohub.model.GetCoinsResponse
 import com.example.cryptohub.model.GetExchangeResponse
 import com.example.cryptohub.model.GetNewsResponse
 import com.google.gson.Gson
@@ -23,6 +24,27 @@ const val API_NAME = "test"
 class RemoteApi(private val apiService: RemoteApiService) {
 
     private val gson = Gson()
+
+
+
+    fun getTopCoins(onCoinsReceived : (GetCoinsResponse) -> Unit) {
+        apiService.getTopCoins().enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                val jsonBody = response.body()?.string()
+                if (jsonBody == null) {
+                    Log.v("null", "coinsOnResponse is null in onResponse remoteApi")
+                }
+                val data = gson.fromJson(jsonBody,GetCoinsResponse::class.java)
+                onCoinsReceived(data)
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+
 
 
 

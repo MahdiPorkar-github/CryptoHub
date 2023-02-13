@@ -14,7 +14,7 @@
 
 
     <ImageView
-        android:id="@+id/img_item_market"
+        android:id="@+id/img_item"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:src="@drawable/ic_launcher_background"
@@ -23,43 +23,54 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txtNewsSource"
+        android:id="@+id/txtCoinName"
         style="@style/CoinBitText.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:text="BTC"
-        app:layout_constraintStart_toEndOf="@+id/img_item_market"
+        app:layout_constraintStart_toEndOf="@+id/img_item"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <TextView
-        android:id="@+id/txtTaghir"
+        android:id="@+id/txt_dollar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="USDT"
+        style="@style/CoinBitText.BodyAlternate"
+        android:layout_marginStart="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtCoinName" />
+
+    <TextView
+        android:id="@+id/txtChange"
         style="@style/CoinBitText.Body1Alternate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="4dp"
         android:text="CoinBase"
-        app:layout_constraintStart_toEndOf="@+id/img_item_market"
-        app:layout_constraintTop_toBottomOf="@+id/txtNewsSource" />
+        app:layout_constraintStart_toEndOf="@+id/img_item"
+        app:layout_constraintTop_toBottomOf="@+id/txtCoinName" />
 
     <TextView
-        android:id="@+id/txtNewsTitle"
+        android:id="@+id/txtPrice"
         style="@style/CoinBitText.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="$3.185"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/txtNewsSource" />
+        app:layout_constraintTop_toTopOf="@+id/txtCoinName" />
 
     <TextView
-        android:id="@+id/txtNewsBody"
+        android:id="@+id/txtMarketCap"
         style="@style/CoinBitText.Body1Alternate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="$2.4 million"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtNewsTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/txtPrice" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
