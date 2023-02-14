@@ -9,8 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cryptohub.databinding.ItemRecyclerNewsBinding
 import com.example.cryptohub.model.News
+import com.example.cryptohub.onClickInterfaces.NewsEvents
 
-class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
+class NewsAdapter(private val newsEvents: NewsEvents) : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
     private val data : ArrayList<News> = arrayListOf()
 
@@ -23,8 +24,7 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
             binding.txtNewsTitle.text = news.title
             binding.txtNewsBody.text = news.body
             binding.root.setOnClickListener {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(news.url))
-//                startActivity(binding.root.context,intent)
+                newsEvents.onNewsItemClicked(news)
             }
         }
     }
@@ -49,8 +49,6 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
     }
 
 
-    interface NewsEvents {
-        fun onNewsItemClicked(news: News)
-    }
-
 }
+
+

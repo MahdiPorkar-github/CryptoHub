@@ -1,5 +1,7 @@
 package com.example.cryptohub.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,11 +18,12 @@ import com.example.cryptohub.databinding.FragmentNewsBinding
 import com.example.cryptohub.model.GetNewsResponse
 import com.example.cryptohub.model.News
 import com.example.cryptohub.networking.NetworkChecker
+import com.example.cryptohub.onClickInterfaces.NewsEvents
 
-class NewsFragment : Fragment(R.layout.fragment_news) {
+class NewsFragment : Fragment(R.layout.fragment_news),NewsEvents {
 
     private val adapter by lazy {
-        NewsAdapter()
+        NewsAdapter(this)
     }
     private val remoteApi = App.remoteApi
     private lateinit var binding: FragmentNewsBinding
@@ -65,6 +68,11 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
                 adapter.setData(data)
             }
         }
+    }
+
+    override fun onNewsItemClicked(news: News) {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(news.url))
+                startActivity(intent)
     }
 
 
