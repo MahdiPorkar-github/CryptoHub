@@ -3,11 +3,11 @@ package com.example.cryptohub.fragments
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,8 +17,6 @@ import com.example.cryptohub.R
 import com.example.cryptohub.adapter.CoinsAdapter
 import com.example.cryptohub.databinding.FragmentHomeBinding
 import com.example.cryptohub.model.Coin
-import com.example.cryptohub.model.GetCoinsResponse
-import com.example.cryptohub.model.News
 import com.example.cryptohub.networking.BASE_URL_IMAGE
 import com.example.cryptohub.networking.NetworkChecker
 
@@ -52,7 +50,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun initListeners() {
 
-        binding.layoutWatchlist.btnShowMore.setOnClickListener {
+
+        binding.homeSwipeRefresh.setOnRefreshListener {
+
+            initUi()
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                binding.homeSwipeRefresh.isRefreshing = false
+            }, 1500)
+
+        }
+
+
+        binding.btnShowMore.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.livecoinwatch.com/"))
             startActivity(intent)
         }

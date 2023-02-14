@@ -1,110 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+
+    android:id="@+id/homeSwipeRefresh"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-
-    <EditText
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="12dp"
-        android:background="@drawable/background_rounded_all"
-        android:drawableStart="@drawable/ic_search"
-        android:drawableTint="@color/white"
-        android:hint="Search Coins"
-        android:paddingStart="4dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="24dp"
-        android:paddingBottom="8dp"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textColorHint="@color/tertiaryTextColor"
-        android:textDirection="ltr" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
 
-    <RadioGroup
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        android:weightSum="6">
-
-
-        <RadioButton
-            android:id="@+id/radio_hot"
-            android:layout_width="0dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:background="@drawable/range_radio_btn_selector_background"
-            android:button="@null"
-            android:checked="true"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:text="Hot"
-            android:textAlignment="center"
-            android:textColor="@drawable/range_radio_btn_selector"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <RadioButton
-            android:id="@+id/radio_Gainers"
-            android:layout_width="0dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:background="@drawable/range_radio_btn_selector_background"
-            android:button="@null"
-            android:checked="false"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:text="Gainers"
-            android:textAlignment="center"
-            android:textColor="@drawable/range_radio_btn_selector"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <RadioButton
-            android:id="@+id/radio_losers"
-            android:layout_width="0dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:background="@drawable/range_radio_btn_selector_background"
-            android:button="@null"
-            android:checked="false"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:text="Losers"
-            android:textAlignment="center"
-            android:textColor="@drawable/range_radio_btn_selector"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-    </RadioGroup>
+            <EditText
+                android:id="@+id/edt_search_coin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/background_rounded_all"
+                android:drawableStart="@drawable/ic_search"
+                android:drawableTint="@color/white"
+                android:hint="Search Coins"
+                android:paddingStart="4dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="24dp"
+                android:paddingBottom="8dp"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textColorHint="@color/tertiaryTextColor"
+                android:textDirection="ltr" />
 
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:paddingTop="12dp">
+            <RadioGroup
 
-        <include
-            android:id="@+id/layout_watchlist"
-            layout="@layout/module_watchlist" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:weightSum="6">
 
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                <RadioButton
+                    android:id="@+id/radio_hot"
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/range_radio_btn_selector_background"
+                    android:button="@null"
+                    android:checked="true"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:text="Hot"
+                    android:textAlignment="center"
+                    android:textColor="@drawable/range_radio_btn_selector"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/radio_Gainers"
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/range_radio_btn_selector_background"
+                    android:button="@null"
+                    android:checked="false"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:text="Gainers"
+                    android:textAlignment="center"
+                    android:textColor="@drawable/range_radio_btn_selector"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/radio_losers"
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/range_radio_btn_selector_background"
+                    android:button="@null"
+                    android:checked="false"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:text="Losers"
+                    android:textAlignment="center"
+                    android:textColor="@drawable/range_radio_btn_selector"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </RadioGroup>
 
 
-</LinearLayout>
+            <include
+                android:id="@+id/layout_watchlist"
+                layout="@layout/module_watchlist" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnShowMore"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                android:layout_gravity="end"
+                android:text="More"
+                android:textColor="@color/primaryTextColor"/>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
