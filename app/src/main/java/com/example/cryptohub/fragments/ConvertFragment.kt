@@ -1,6 +1,8 @@
 package com.example.cryptohub.fragments
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -97,7 +99,17 @@ class ConvertFragment : Fragment(R.layout.fragment_convert) {
             }
         }
 
+        binding.convertSwipeRefresh.setOnRefreshListener {
+
+            initUi()
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                binding.convertSwipeRefresh.isRefreshing = false
+            }, 1500)
+
+        }
     }
+
 
     private fun checkIfValid(): Boolean {
         return binding.edtOriginCurrencyAmount.text.toString() != ""

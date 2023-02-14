@@ -1,356 +1,370 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:focusable="true"
-    android:focusableInTouchMode="true"
+
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+
+    android:id="@+id/convertSwipeRefresh"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="64dp"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:paddingHorizontal="32dp">
+    android:layout_height="match_parent">
 
-
-    <TextView
-        style="@style/Toolbar.TitleText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginVertical="16dp"
-        android:text="Converter"
-        android:textColor="@color/primaryTextColor"
-        android:textSize="18sp" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/background_rounded_all"
-        android:padding="8dp">
+        android:layout_height="match_parent">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/img_origin_currency"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="32dp"
-            android:src="@drawable/us_flag"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/verticalGuideline"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="64dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.60" />
+            android:paddingHorizontal="32dp">
 
 
-        <EditText
-            android:id="@+id/edt_origin_currency_amount"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:background="@drawable/background_rounded_all"
-            android:drawableTint="@color/white"
-            android:ellipsize="end"
-            android:hint="Amount"
-            android:inputType="number"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textColorHint="@color/tertiaryTextColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/origin_currency_symbol"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                style="@style/Toolbar.TitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginVertical="16dp"
+                android:text="Converter"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="18sp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_rounded_all"
+                android:padding="8dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_origin_currency"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="32dp"
+                    android:src="@drawable/us_flag"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
-        <TextView
-            android:id="@+id/origin_currency_symbol"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="$"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/edt_origin_currency_amount"
-            app:layout_constraintStart_toEndOf="@id/verticalGuideline"
-            app:layout_constraintTop_toTopOf="@id/edt_origin_currency_amount" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/verticalGuideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.60" />
 
 
-        <Spinner
-            android:id="@+id/spOrigin"
-            style="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="48dp"
-            android:backgroundTint="@color/white"
-            android:entries="@array/currency_codes"
-            app:layout_constraintStart_toStartOf="@id/img_origin_currency"
-            app:layout_constraintTop_toTopOf="@id/img_origin_currency" />
-
-        <TextView
-            android:id="@+id/origin_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="US Dollar"
-            android:textColor="@color/tertiaryTextColor"
-            app:layout_constraintStart_toStartOf="@id/spOrigin"
-            app:layout_constraintTop_toBottomOf="@id/spOrigin" />
+                <EditText
+                    android:id="@+id/edt_origin_currency_amount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/background_rounded_all"
+                    android:drawableTint="@color/white"
+                    android:ellipsize="end"
+                    android:hint="Amount"
+                    android:inputType="number"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/tertiaryTextColor"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/origin_currency_symbol"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|center_vertical"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/bg_exchange_icon"
-        android:paddingVertical="16dp"
-        android:paddingEnd="32dp"
-        tools:ignore="RtlSymmetry">
-
-        <ImageView
-            android:id="@+id/ic_exchangeRate"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="32dp"
-            android:background="@drawable/bg_exchange_icon"
-            android:orientation="vertical"
-            android:padding="8dp"
-            android:src="@drawable/rotate_drawable"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="1"
-            android:textColor="@color/tertiaryTextColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ic_exchangeRate"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_origin_currency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="USD"
-            android:textColor="@color/tertiaryTextColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textView1"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="="
-            android:textColor="@color/tertiaryTextColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_origin_currency"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/destCurrencyRate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text=""
-            android:textColor="@color/tertiaryTextColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textView2"
-            app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/origin_currency_symbol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@id/edt_origin_currency_amount"
+                    app:layout_constraintStart_toEndOf="@id/verticalGuideline"
+                    app:layout_constraintTop_toTopOf="@id/edt_origin_currency_amount" />
 
 
-        <TextView
-            android:id="@+id/tv_dest_currency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text=""
-            android:textColor="@color/tertiaryTextColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/destCurrencyRate"
-            app:layout_constraintTop_toTopOf="parent" />
+                <Spinner
+                    android:id="@+id/spOrigin"
+                    style="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="48dp"
+                    android:backgroundTint="@color/white"
+                    android:entries="@array/currency_codes"
+                    app:layout_constraintStart_toStartOf="@id/img_origin_currency"
+                    app:layout_constraintTop_toTopOf="@id/img_origin_currency" />
+
+                <TextView
+                    android:id="@+id/origin_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="US Dollar"
+                    android:textColor="@color/tertiaryTextColor"
+                    app:layout_constraintStart_toStartOf="@id/spOrigin"
+                    app:layout_constraintTop_toBottomOf="@id/spOrigin" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/background_rounded_all"
-        android:padding="8dp">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/bg_exchange_icon"
+                android:paddingVertical="16dp"
+                android:paddingEnd="32dp"
+                tools:ignore="RtlSymmetry">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/img_dest_currency"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="32dp"
-            android:src="@drawable/us_flag"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/ic_exchangeRate"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="32dp"
+                    android:background="@drawable/bg_exchange_icon"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    android:src="@drawable/rotate_drawable"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="1"
+                    android:textColor="@color/tertiaryTextColor"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ic_exchangeRate"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/verticalGuideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.60" />
+                <TextView
+                    android:id="@+id/tv_origin_currency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="USD"
+                    android:textColor="@color/tertiaryTextColor"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/textView1"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="="
+                    android:textColor="@color/tertiaryTextColor"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_origin_currency"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/dest_currency_amount"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:background="@drawable/background_rounded_all"
-            android:text="؟"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/dest_currency_symbol"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/dest_currency_symbol"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="USD"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/dest_currency_amount"
-            app:layout_constraintStart_toEndOf="@id/verticalGuideline2"
-            app:layout_constraintTop_toTopOf="@id/dest_currency_amount" />
-
-
-        <Spinner
-            android:id="@+id/spDest"
-            style="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="48dp"
-            android:backgroundTint="@color/white"
-            android:entries="@array/currency_codes"
-            app:layout_constraintStart_toStartOf="@id/img_dest_currency"
-            app:layout_constraintTop_toTopOf="@id/img_dest_currency" />
-
-        <TextView
-            android:id="@+id/dest_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="US Dollar"
-            android:textColor="@color/tertiaryTextColor"
-            app:layout_constraintStart_toStartOf="@id/spDest"
-            app:layout_constraintTop_toBottomOf="@id/spDest" />
+                <TextView
+                    android:id="@+id/destCurrencyRate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text=""
+                    android:textColor="@color/tertiaryTextColor"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/textView2"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/tv_dest_currency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text=""
+                    android:textColor="@color/tertiaryTextColor"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/destCurrencyRate"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
-    <Button
-        android:id="@+id/btnConvert"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:text="CONVERT" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_rounded_all"
+                android:padding="8dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_dest_currency"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="32dp"
+                    android:src="@drawable/us_flag"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|center_vertical"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"
-        android:paddingVertical="16dp"
-        android:paddingEnd="32dp"
-        tools:ignore="RtlSymmetry">
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/verticalGuideline2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.60" />
 
 
-        <TextView
-            android:id="@+id/res_tvOriginAmount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:textSize="20sp"
-            tools:text="؟"
-            android:textColor="@color/tertiaryTextColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/dest_currency_amount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/background_rounded_all"
+                    android:text="؟"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/dest_currency_symbol"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
-        <TextView
-            android:id="@+id/res_tv_origin_currency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            tools:text="USD"
-            android:textSize="20sp"
-            android:textColor="@color/tertiaryTextColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/res_tvOriginAmount"
-            app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/dest_currency_symbol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="USD"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@id/dest_currency_amount"
+                    app:layout_constraintStart_toEndOf="@id/verticalGuideline2"
+                    app:layout_constraintTop_toTopOf="@id/dest_currency_amount" />
 
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:textSize="20sp"
-            tools:text="="
-            android:textColor="@color/tertiaryTextColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/res_tv_origin_currency"
-            app:layout_constraintTop_toTopOf="parent" />
+                <Spinner
+                    android:id="@+id/spDest"
+                    style="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="48dp"
+                    android:backgroundTint="@color/white"
+                    android:entries="@array/currency_codes"
+                    app:layout_constraintStart_toStartOf="@id/img_dest_currency"
+                    app:layout_constraintTop_toTopOf="@id/img_dest_currency" />
+
+                <TextView
+                    android:id="@+id/dest_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="US Dollar"
+                    android:textColor="@color/tertiaryTextColor"
+                    app:layout_constraintStart_toStartOf="@id/spDest"
+                    app:layout_constraintTop_toBottomOf="@id/spDest" />
 
 
-
-        <TextView
-            android:id="@+id/res_destCurrencyAmount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:textSize="20sp"
-            tools:text="؟"
-            android:textColor="@color/tertiaryTextColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textView3"
-            app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-        <TextView
-            android:id="@+id/res_tv_dest_currency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            tools:text="USD"
-            android:textSize="20sp"
-            android:textColor="@color/tertiaryTextColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/res_destCurrencyAmount"
-            app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/btnConvert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="64dp"
+                android:text="CONVERT" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                android:paddingVertical="16dp"
+                android:paddingEnd="32dp"
+                tools:ignore="RtlSymmetry">
 
 
-</LinearLayout>
+                <TextView
+                    android:id="@+id/res_tvOriginAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:textColor="@color/tertiaryTextColor"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="؟" />
+
+
+                <TextView
+                    android:id="@+id/res_tv_origin_currency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textColor="@color/tertiaryTextColor"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/res_tvOriginAmount"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="USD" />
+
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textColor="@color/tertiaryTextColor"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/res_tv_origin_currency"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="=" />
+
+
+                <TextView
+                    android:id="@+id/res_destCurrencyAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textColor="@color/tertiaryTextColor"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/textView3"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="؟" />
+
+
+                <TextView
+                    android:id="@+id/res_tv_dest_currency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textColor="@color/tertiaryTextColor"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/res_destCurrencyAmount"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="USD" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
