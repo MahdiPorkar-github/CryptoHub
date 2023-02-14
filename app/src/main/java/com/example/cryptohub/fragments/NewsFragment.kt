@@ -3,6 +3,8 @@ package com.example.cryptohub.fragments
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -44,7 +46,22 @@ class NewsFragment : Fragment(R.layout.fragment_news),NewsEvents {
         super.onViewCreated(view, savedInstanceState)
 
         initUi()
+        initListeners()
 
+
+    }
+
+    private fun initListeners() {
+
+        binding.newsSwipeRefresh.setOnRefreshListener {
+
+            initUi()
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                binding.newsSwipeRefresh.isRefreshing = false
+            }, 1500)
+
+        }
 
     }
 
