@@ -8,7 +8,6 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +18,6 @@ import com.example.cryptohub.R
 import com.example.cryptohub.adapter.CoinsAdapter
 import com.example.cryptohub.databinding.FragmentHomeBinding
 import com.example.cryptohub.model.Coin
-import com.example.cryptohub.model.GetCoinsResponse
 import com.example.cryptohub.networking.BASE_URL_IMAGE
 import com.example.cryptohub.networking.NetworkChecker
 
@@ -113,7 +111,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) , CoinsAdapter.CoinsEvents
                             it.coinInfo.fullName,
                             it.dISPLAY.uSD.pRICE,
                             it.rAW.uSD.cHANGEPCT24HOUR,
-                            it.rAW.uSD.mKTCAP
+                            it.rAW.uSD.mKTCAP,
+                            it.dISPLAY.uSD.oPEN24HOUR,
+                            it.dISPLAY.uSD.hIGH24HOUR,
+                            it.dISPLAY.uSD.lOW24HOUR,
+                            it.dISPLAY.uSD.cHANGE24HOUR,
+                            it.coinInfo.algorithm,
+                            it.dISPLAY.uSD.tOTALVOLUME24H,
+                            it.dISPLAY.uSD.sUPPLY,
+                            it.dISPLAY.uSD.mKTCAP,
                         )
                     )
                 }

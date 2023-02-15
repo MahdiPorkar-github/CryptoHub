@@ -10,5 +10,14 @@ data class Coin(
     val coinName: String?,
     val coinPrice: String,
     val change: Double,
-    val marketCap: Double
-) : Parcelable
+    val marketCap: Double,
+    val open: String? = null,
+    val todaysHigh: String? = null,
+    val todaysLow: String? = null,
+    val todaysChange: String? = null,
+    val algorithm: String? = null,
+    val totalVolume: String? = null,
+    val supply: String? = null,
+    val marketCapDisplay: String? = null,
+
+    ) : Parcelable
