@@ -82,7 +82,7 @@
 
 
     <RadioGroup
-
+        android:id="@+id/radio_group_coins_detail"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:gravity="center"
@@ -91,14 +91,14 @@
         android:weightSum="7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spark_view_main">
-
+        app:layout_constraintTop_toBottomOf="@+id/spark_view_main">
 
         <RadioButton
             android:id="@+id/radio_12h"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center"
+            android:textAlignment="center"
             android:layout_weight="1"
             android:background="@drawable/range_radio_btn_selector_background"
             android:button="@null"
@@ -112,13 +112,14 @@
 
         <RadioButton
             android:id="@+id/radio_1d"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@drawable/range_radio_btn_selector"
+            android:background="@drawable/range_radio_btn_selector_background"
             android:button="@null"
             android:checked="false"
+            android:textAlignment="center"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:text="@string/period_1day"
@@ -128,15 +129,16 @@
 
         <RadioButton
             android:id="@+id/radio_1w"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@drawable/range_radio_btn_selector"
+            android:background="@drawable/range_radio_btn_selector_background"
             android:button="@null"
             android:checked="false"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
+            android:textAlignment="center"
             android:text="@string/period_1week"
             android:textColor="@drawable/range_radio_btn_selector"
             android:textSize="14sp"
@@ -144,11 +146,12 @@
 
         <RadioButton
             android:id="@+id/radio_1m"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@drawable/range_radio_btn_selector"
+            android:textAlignment="center"
+            android:background="@drawable/range_radio_btn_selector_background"
             android:button="@null"
             android:checked="false"
             android:paddingStart="8dp"
@@ -160,14 +163,15 @@
 
         <RadioButton
             android:id="@+id/radio_3m"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@drawable/range_radio_btn_selector"
+            android:background="@drawable/range_radio_btn_selector_background"
             android:button="@null"
             android:checked="false"
             android:paddingStart="8dp"
+            android:textAlignment="center"
             android:paddingEnd="8dp"
             android:text="@string/period_3month"
             android:textColor="@drawable/range_radio_btn_selector"
@@ -176,15 +180,16 @@
 
         <RadioButton
             android:id="@+id/radio_1y"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@drawable/range_radio_btn_selector"
+            android:background="@drawable/range_radio_btn_selector_background"
             android:button="@null"
             android:checked="false"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
+            android:textAlignment="center"
             android:text="@string/period_1year"
             android:textColor="@drawable/range_radio_btn_selector"
             android:textSize="14sp"
@@ -192,20 +197,20 @@
 
         <RadioButton
             android:id="@+id/radio_all"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@drawable/range_radio_btn_selector"
+            android:background="@drawable/range_radio_btn_selector_background"
             android:button="@null"
             android:checked="false"
             android:paddingStart="8dp"
+            android:textAlignment="center"
             android:paddingEnd="8dp"
             android:text="@string/period_all"
             android:textColor="@drawable/range_radio_btn_selector"
             android:textSize="14sp"
             android:textStyle="bold" />
-
 
     </RadioGroup>
 

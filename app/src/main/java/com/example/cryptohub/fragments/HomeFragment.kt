@@ -8,24 +8,29 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptohub.App
+import com.example.cryptohub.CoinActivity
 import com.example.cryptohub.R
 import com.example.cryptohub.adapter.CoinsAdapter
 import com.example.cryptohub.databinding.FragmentHomeBinding
 import com.example.cryptohub.model.Coin
+import com.example.cryptohub.model.GetCoinsResponse
 import com.example.cryptohub.networking.BASE_URL_IMAGE
 import com.example.cryptohub.networking.NetworkChecker
 
-class HomeFragment : Fragment(R.layout.fragment_home) {
+const val SEND_DATA_TO_COIN_ACTIVITY = "sendData"
+
+class HomeFragment : Fragment(R.layout.fragment_home) , CoinsAdapter.CoinsEvents{
 
     lateinit var binding: FragmentHomeBinding
     lateinit var localData: ArrayList<Coin>
     private val adapter by lazy {
-        CoinsAdapter()
+        CoinsAdapter(this)
     }
     private val remoteApi = App.remoteApi
 
@@ -46,6 +51,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         initUi()
         initListeners()
+
     }
 
     private fun initListeners() {
@@ -115,6 +121,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 adapter.setData(data)
             }
         }
+    }
+
+    override fun onCoinItemClicked(coin: Coin) {
+
+        val intent = Intent(activity,CoinActivity::class.java)
+        intent.putExtra(SEND_DATA_TO_COIN_ACTIVITY,coin )
+        startActivity(intent)
     }
 
 }

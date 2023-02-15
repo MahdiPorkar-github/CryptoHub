@@ -16,7 +16,7 @@ import com.example.cryptohub.model.News
 import com.example.cryptohub.networking.BASE_URL_IMAGE
 import java.math.RoundingMode
 
-class CoinsAdapter : RecyclerView.Adapter<CoinsAdapter.CoinsViewHolder>() {
+class CoinsAdapter(private val coinsEvents: CoinsEvents) : RecyclerView.Adapter<CoinsAdapter.CoinsViewHolder>() {
 
     private val data: ArrayList<Coin> = arrayListOf()
 
@@ -41,7 +41,7 @@ class CoinsAdapter : RecyclerView.Adapter<CoinsAdapter.CoinsViewHolder>() {
 
 
             binding.root.setOnClickListener {
-
+                coinsEvents.onCoinItemClicked(coin)
             }
 
         }

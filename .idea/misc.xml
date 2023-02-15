@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/drawable-xhdpi/background_rounded_all.xml" value="0.1235" />
+        <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/drawable-xxhdpi/button_back.xml" value="0.1235" />
         <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/drawable-xxhdpi/range_radio_btn_selector_background.xml" value="0.1845" />
         <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/drawable/background_rounded_all.xml" value="0.1235" />
         <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/drawable/bg_exchange_icon.xml" value="0.1235" />
@@ -14,15 +15,16 @@
         <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/drawable/ic_sync.xml" value="0.1235" />
         <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/drawable/rotate_drawable.xml" value="0.1235" />
         <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/layout/activity_coin.xml" value="0.264" />
+        <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/layout/activity_coins.xml" value="0.24375" />
         <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/layout/activity_main.xml" value="0.152" />
         <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/layout/activity_market.xml" value="0.176" />
         <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/layout/fragment_convert.xml" value="0.264" />
-        <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/layout/fragment_home.xml" value="0.136" />
-        <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/layout/fragment_news.xml" value="0.4" />
+        <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/layout/fragment_news.xml" value="0.152" />
         <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/layout/item_recycler_market.xml" value="0.152" />
         <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/layout/item_recycler_news.xml" value="0.176" />
         <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/layout/module_about.xml" value="0.24375" />
-        <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/layout/module_chart.xml" value="0.24375" />
+        <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/layout/module_chart.xml" value="0.1" />
         <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/layout/module_statistics.xml" value="0.24375" />
         <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/layout/module_toolbar.xml" value="0.264" />
         <entry key="..\:/Users/Mahdi/AndroidStudioProjects/CryptoHub/app/src/main/res/layout/module_watchlist.xml" value="0.264" />
