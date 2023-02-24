@@ -29,7 +29,8 @@ const val SEND_ABOUT_DATA_TO_COIN_ACTIVITY = "aboutCoin"
 class HomeFragment : Fragment(R.layout.fragment_home), CoinsAdapter.CoinsEvents {
 
     lateinit var binding: FragmentHomeBinding
-    lateinit var localData: ArrayList<Coin>
+    private lateinit var localData: ArrayList<Coin>
+    private lateinit var filteredCoins: ArrayList<Coin>
     private lateinit var aboutCoinsMap: MutableMap<String, CoinAboutItem>
     private val adapter by lazy {
         CoinsAdapter(this)
@@ -89,12 +90,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), CoinsAdapter.CoinsEvents 
     private fun searchCoin(editTextInput: String) {
 
         if (editTextInput.isNotEmpty()) {
-            val filteredList = localData.filter { coin ->
+            val filteredList = filteredCoins.filter { coin ->
                 coin.coinName!!.contains(editTextInput)
             }
             adapter.setData(filteredList)
         } else {
-            adapter.setData(localData)
+            adapter.setData(filteredCoins)
         }
     }
 
@@ -137,7 +138,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), CoinsAdapter.CoinsEvents 
                     )
                 }
                 localData = data.clone() as ArrayList<Coin>
-                adapter.setData(data)
+                filteredCoins = data.clone() as ArrayList<Coin>
+                adapter.setData(filteredCoins)
             }
         }
     }
@@ -188,14 +190,16 @@ class HomeFragment : Fragment(R.layout.fragment_home), CoinsAdapter.CoinsEvents 
                     val gainersList = localData.filter {
                         !it.changePctToday.contains("-") && it.changePctToday != "0.00"
                     }
-                    adapter.setData(gainersList)
+                    filteredCoins = gainersList as ArrayList<Coin>
+                    adapter.setData(filteredCoins)
                 }
                 R.id.radio_losers -> {
 
                     val losersList = localData.filter {
                         it.changePctToday.contains("-")
                     }
-                    adapter.setData(losersList)
+                    filteredCoins = losersList as ArrayList<Coin>
+                    adapter.setData(filteredCoins)
                 }
             }
         }
