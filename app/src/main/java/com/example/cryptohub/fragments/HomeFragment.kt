@@ -15,18 +15,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptohub.App
 import com.example.cryptohub.CoinActivity
 import com.example.cryptohub.R
-import com.example.cryptohub.adapter.CoinsAdapter
+import com.example.cryptohub.adapters.CoinsAdapter
 import com.example.cryptohub.databinding.FragmentHomeBinding
 import com.example.cryptohub.model.Coin
+import com.example.cryptohub.model.CoinAboutData
+import com.example.cryptohub.model.CoinAboutItem
 import com.example.cryptohub.networking.BASE_URL_IMAGE
 import com.example.cryptohub.networking.NetworkChecker
+import com.google.gson.Gson
 
-const val SEND_DATA_TO_COIN_ACTIVITY = "sendData"
+const val SEND_COIN_DATA_TO_COIN_ACTIVITY = "coinData"
+const val SEND_ABOUT_DATA_TO_COIN_ACTIVITY = "aboutCoin"
 
-class HomeFragment : Fragment(R.layout.fragment_home) , CoinsAdapter.CoinsEvents{
+class HomeFragment : Fragment(R.layout.fragment_home), CoinsAdapter.CoinsEvents {
 
     lateinit var binding: FragmentHomeBinding
     lateinit var localData: ArrayList<Coin>
+    private lateinit var aboutCoinsMap: MutableMap<String, CoinAboutItem>
     private val adapter by lazy {
         CoinsAdapter(this)
     }
@@ -49,6 +54,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) , CoinsAdapter.CoinsEvents
         super.onViewCreated(view, savedInstanceState)
         initUi()
         initListeners()
+        getCoinAbout()
+
+
 
     }
 
@@ -75,6 +83,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) , CoinsAdapter.CoinsEvents
             searchCoin(input.toString())
         }
 
+        setRadioBtn()
+
     }
 
     private fun searchCoin(editTextInput: String) {
@@ -90,11 +100,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) , CoinsAdapter.CoinsEvents
     }
 
     private fun initUi() {
+
         // set the recyclerView
         binding.layoutWatchlist.recyclerMain.layoutManager =
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         binding.layoutWatchlist.recyclerMain.adapter = adapter
         getAllCoins()
+
     }
 
     private fun getAllCoins() {
@@ -120,6 +132,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) , CoinsAdapter.CoinsEvents
                             it.dISPLAY.uSD.tOTALVOLUME24H,
                             it.dISPLAY.uSD.sUPPLY,
                             it.dISPLAY.uSD.mKTCAP,
+                            it.coinInfo.name,
+                            it.dISPLAY.uSD.cHANGEPCT24HOUR
                         )
                     )
                 }
@@ -129,11 +143,43 @@ class HomeFragment : Fragment(R.layout.fragment_home) , CoinsAdapter.CoinsEvents
         }
     }
 
+    private fun getCoinAbout() {
+
+        val fileInString = readFromLocalJson()
+        val gson = Gson()
+        val aboutCoins = gson.fromJson(fileInString, CoinAboutData::class.java)
+
+        aboutCoinsMap = mutableMapOf()
+        aboutCoins.forEach {
+            aboutCoinsMap[it.currencyName] = CoinAboutItem(
+                it.info.web,
+                it.info.github,
+                it.info.twt,
+                it.info.desc,
+                it.info.reddit
+            )
+        }
+    }
+
+    private fun readFromLocalJson(): String? {
+        return context?.applicationContext?.assets?.open("currencyinfo.json")?.bufferedReader()
+            .use { it?.readText() }
+    }
+
     override fun onCoinItemClicked(coin: Coin) {
 
-        val intent = Intent(activity,CoinActivity::class.java)
-        intent.putExtra(SEND_DATA_TO_COIN_ACTIVITY,coin )
+        val intent = Intent(activity, CoinActivity::class.java)
+        intent.putExtra(SEND_COIN_DATA_TO_COIN_ACTIVITY, coin)
+
+        val bundle = Bundle()
+        bundle.putParcelable(SEND_ABOUT_DATA_TO_COIN_ACTIVITY,aboutCoinsMap[coin.currencySymbol])
+        intent.putExtra("bundle",bundle)
         startActivity(intent)
+    }
+
+
+    private fun setRadioBtn() {
+
     }
 
 }

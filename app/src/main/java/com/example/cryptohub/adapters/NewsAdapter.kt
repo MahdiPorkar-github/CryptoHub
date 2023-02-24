@@ -1,10 +1,7 @@
-package com.example.cryptohub.adapter
+package com.example.cryptohub.adapters
 
-import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cryptohub.databinding.ItemRecyclerNewsBinding
