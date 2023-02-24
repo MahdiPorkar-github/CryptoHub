@@ -41,12 +41,12 @@
 
 
             <RadioGroup
-
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
+                android:id="@+id/radio_filters"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="8dp"
@@ -54,7 +54,7 @@
 
 
                 <RadioButton
-                    android:id="@+id/radio_hot"
+                    android:id="@+id/radio_all"
                     android:layout_width="0dp"
                     android:layout_height="32dp"
                     android:layout_gravity="center"
@@ -64,7 +64,7 @@
                     android:checked="true"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
-                    android:text="Hot"
+                    android:text="All"
                     android:textAlignment="center"
                     android:textColor="@drawable/range_radio_btn_selector"
                     android:textSize="14sp"

@@ -20,8 +20,7 @@ import com.example.cryptohub.databinding.FragmentHomeBinding
 import com.example.cryptohub.model.Coin
 import com.example.cryptohub.model.CoinAboutData
 import com.example.cryptohub.model.CoinAboutItem
-import com.example.cryptohub.networking.BASE_URL_IMAGE
-import com.example.cryptohub.networking.NetworkChecker
+import com.example.cryptohub.networking.*
 import com.google.gson.Gson
 
 const val SEND_COIN_DATA_TO_COIN_ACTIVITY = "coinData"
@@ -180,6 +179,26 @@ class HomeFragment : Fragment(R.layout.fragment_home), CoinsAdapter.CoinsEvents 
 
     private fun setRadioBtn() {
 
+        binding.radioFilters.setOnCheckedChangeListener { _, checkedId ->
+
+            when(checkedId) {
+
+                R.id.radio_all -> {adapter.setData(localData)}
+                R.id.radio_Gainers -> {
+                    val gainersList = localData.filter {
+                        !it.changePctToday.contains("-") && it.changePctToday != "0.00"
+                    }
+                    adapter.setData(gainersList)
+                }
+                R.id.radio_losers -> {
+
+                    val losersList = localData.filter {
+                        it.changePctToday.contains("-")
+                    }
+                    adapter.setData(losersList)
+                }
+            }
+        }
     }
 
 }
