@@ -12,3 +12,4 @@ Crypto app for showing crypto coins data and news also converter to convert curr
 
 ![convert](https://user-images.githubusercontent.com/88928420/218782354-e4f639f5-0224-4787-b805-0b45e8ebe541.png)
 
+![chart](https://user-images.githubusercontent.com/88928420/221180615-5b267f86-9dc1-4a8d-b7dd-c3aa5d5d3100.png)
