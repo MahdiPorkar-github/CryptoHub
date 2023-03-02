@@ -14,7 +14,6 @@ import retrofit2.http.*
 interface RemoteApiService {
 
     // get top news
-    @Headers(API_KEY)
     @GET("v2/news/")
     fun getTopNews(
         @Query("lang") lang: String = "EN", @Query("sortOrder") sortOrder: String = "popular"
@@ -22,7 +21,6 @@ interface RemoteApiService {
 
 
     // get top coins
-    @Headers(API_KEY)
     @GET("top/totalvolfull")
     fun getTopCoins(
         @Query("tsym") to_symbol: String = "USD",
@@ -31,7 +29,6 @@ interface RemoteApiService {
 
 
     // get exchange rates
-    @Headers(API_KEY)
     @GET("price")
     fun getRates(
         @Query("fsym") fromSymbol: String = "USD", @Query("tsyms") toSymbol: String
@@ -39,7 +36,6 @@ interface RemoteApiService {
 
 
     // get chart data
-    @Headers(API_KEY)
     @GET("v2/{period}")
     fun getChartData(
         @Path("period") period : String,
