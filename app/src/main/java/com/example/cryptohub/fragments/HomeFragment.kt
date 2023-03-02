@@ -20,6 +20,7 @@ import com.example.cryptohub.databinding.FragmentHomeBinding
 import com.example.cryptohub.model.Coin
 import com.example.cryptohub.model.CoinAboutData
 import com.example.cryptohub.model.CoinAboutItem
+import com.example.cryptohub.model.Success
 import com.example.cryptohub.networking.*
 import com.google.gson.Gson
 
@@ -55,7 +56,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), CoinsAdapter.CoinsEvents 
         initUi()
         initListeners()
         getCoinAbout()
-
 
 
     }
@@ -113,29 +113,31 @@ class HomeFragment : Fragment(R.layout.fragment_home), CoinsAdapter.CoinsEvents 
 
         networkStatusChecker.performIfConnectedToInternet {
 
-            remoteApi.getTopCoins { coinsResponse ->
+            remoteApi.getTopCoins { result ->
                 val data = arrayListOf<Coin>()
-                coinsResponse.data.forEach {
+                if (result is Success) {
+                    result.data.data.forEach {
 
-                    data.add(
-                        Coin(
-                            BASE_URL_IMAGE + it.coinInfo.imageUrl,
-                            it.coinInfo.fullName,
-                            it.dISPLAY.uSD.pRICE,
-                            it.rAW.uSD.cHANGEPCT24HOUR,
-                            it.rAW.uSD.mKTCAP,
-                            it.dISPLAY.uSD.oPEN24HOUR,
-                            it.dISPLAY.uSD.hIGH24HOUR,
-                            it.dISPLAY.uSD.lOW24HOUR,
-                            it.dISPLAY.uSD.cHANGE24HOUR,
-                            it.coinInfo.algorithm,
-                            it.dISPLAY.uSD.tOTALVOLUME24H,
-                            it.dISPLAY.uSD.sUPPLY,
-                            it.dISPLAY.uSD.mKTCAP,
-                            it.coinInfo.name,
-                            it.dISPLAY.uSD.cHANGEPCT24HOUR
+                        data.add(
+                            Coin(
+                                BASE_URL_IMAGE + it.coinInfo.imageUrl,
+                                it.coinInfo.fullName,
+                                it.dISPLAY.uSD.pRICE,
+                                it.rAW.uSD.cHANGEPCT24HOUR,
+                                it.rAW.uSD.mKTCAP,
+                                it.dISPLAY.uSD.oPEN24HOUR,
+                                it.dISPLAY.uSD.hIGH24HOUR,
+                                it.dISPLAY.uSD.lOW24HOUR,
+                                it.dISPLAY.uSD.cHANGE24HOUR,
+                                it.coinInfo.algorithm,
+                                it.dISPLAY.uSD.tOTALVOLUME24H,
+                                it.dISPLAY.uSD.sUPPLY,
+                                it.dISPLAY.uSD.mKTCAP,
+                                it.coinInfo.name,
+                                it.dISPLAY.uSD.cHANGEPCT24HOUR
+                            )
                         )
-                    )
+                    }
                 }
                 localData = data.clone() as ArrayList<Coin>
                 filteredCoins = data.clone() as ArrayList<Coin>
@@ -173,8 +175,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), CoinsAdapter.CoinsEvents 
         intent.putExtra(SEND_COIN_DATA_TO_COIN_ACTIVITY, coin)
 
         val bundle = Bundle()
-        bundle.putParcelable(SEND_ABOUT_DATA_TO_COIN_ACTIVITY,aboutCoinsMap[coin.currencySymbol])
-        intent.putExtra("bundle",bundle)
+        bundle.putParcelable(SEND_ABOUT_DATA_TO_COIN_ACTIVITY, aboutCoinsMap[coin.currencySymbol])
+        intent.putExtra("bundle", bundle)
         startActivity(intent)
     }
 
@@ -183,9 +185,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), CoinsAdapter.CoinsEvents 
 
         binding.radioFilters.setOnCheckedChangeListener { _, checkedId ->
 
-            when(checkedId) {
+            when (checkedId) {
 
-                R.id.radio_all -> {adapter.setData(localData)}
+                R.id.radio_all -> {
+                    adapter.setData(localData)
+                }
                 R.id.radio_Gainers -> {
                     val gainersList = localData.filter {
                         !it.changePctToday.contains("-") && it.changePctToday != "0.00"

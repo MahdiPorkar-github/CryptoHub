@@ -16,6 +16,7 @@ import com.example.cryptohub.App
 import com.example.cryptohub.R
 import com.example.cryptohub.databinding.FragmentConvertBinding
 import com.example.cryptohub.model.GetExchangeResponse
+import com.example.cryptohub.model.Success
 import com.example.cryptohub.networking.NetworkChecker
 import java.math.RoundingMode
 
@@ -606,8 +607,9 @@ class ConvertFragment : Fragment(R.layout.fragment_convert) {
     private fun getExchangeRates() {
 
         networkChecker.performIfConnectedToInternet {
-            remoteApi.getExchangeRates { exchangeResponse ->
-                onRatesReceived(exchangeResponse)
+            remoteApi.getExchangeRates { result ->
+                if (result is Success)
+                onRatesReceived(result.data)
             }
         }
     }

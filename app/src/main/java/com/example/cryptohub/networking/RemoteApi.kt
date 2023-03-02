@@ -3,10 +3,10 @@ package com.example.cryptohub.networking
 import android.util.Log
 import com.example.cryptohub.model.*
 import com.google.gson.Gson
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 /**
  * Holds decoupled logic for all the API calls.
@@ -18,31 +18,28 @@ class RemoteApi(private val apiService: RemoteApiService) {
     private val gson = Gson()
 
 
-    fun getTopCoins(onCoinsReceived: (GetCoinsResponse) -> Unit) {
+    fun getTopCoins(onCoinsReceived: (Result<GetCoinsResponse>) -> Unit) {
         apiService.getTopCoins().enqueue(object : Callback<GetCoinsResponse> {
             override fun onResponse(
                 call: Call<GetCoinsResponse>,
                 response: Response<GetCoinsResponse>
             ) {
-                val jsonBody = response.body()
-                if (jsonBody == null) {
-                    Log.v("null", "coinsOnResponse is null in onResponse remoteApi")
-                }
                 val data = response.body()
                 if (data != null) {
-                    onCoinsReceived(data)
+                    onCoinsReceived(Success(data))
+                } else {
+                    onCoinsReceived(Failure(data))
+                    Log.v("null", "getTopCoins is null in onResponse remoteApi")
                 }
             }
 
-            override fun onFailure(call: Call<GetCoinsResponse>, t: Throwable) {
-
-            }
+            override fun onFailure(call: Call<GetCoinsResponse>, t: Throwable) {}
 
         })
     }
 
 
-    fun getTopNews(onNewsReceived: (GetNewsResponse) -> Unit) {
+    fun getTopNews(onNewsReceived: (Result<GetNewsResponse>) -> Unit) {
 
         apiService.getTopNews().enqueue(object : Callback<GetNewsResponse> {
             override fun onResponse(
@@ -51,8 +48,9 @@ class RemoteApi(private val apiService: RemoteApiService) {
             ) {
                 val data = response.body()
                 if (data != null) {
-                    onNewsReceived(data)
+                    onNewsReceived(Success(data))
                 } else {
+                    onNewsReceived(Failure(data))
                     Log.v("null", "newsOnResponse is null in onResponse remoteApi")
                 }
             }
@@ -62,7 +60,7 @@ class RemoteApi(private val apiService: RemoteApiService) {
     }
 
 
-    fun getExchangeRates(onRateReceived: (GetExchangeResponse) -> Unit) {
+    fun getExchangeRates(onRateReceived: (Result<GetExchangeResponse>) -> Unit) {
         apiService.getRates(toSymbol = "USD,CAD,EUR,HKD,ISK,PHP,DKK,HUF,CZK,AUD,RON,SEK,IDR,INR,BRL,RUB,HRK,JPY,THB,CHF,SGD,PLN,BGN,CNY,NOK,NZD,ZAR,MXN,GBP,KRW,MYR")
             .enqueue(object : Callback<GetExchangeResponse> {
                 override fun onResponse(
@@ -71,8 +69,9 @@ class RemoteApi(private val apiService: RemoteApiService) {
                 ) {
                     val data = response.body()
                     if (data != null) {
-                        onRateReceived(data)
+                        onRateReceived(Success(data))
                     } else {
+                        onRateReceived(Failure(data))
                         Log.v("null", "exchangeOnResponse is null in onResponse remoteApi")
                     }
                 }

@@ -16,10 +16,11 @@ import com.example.cryptohub.R
 import com.example.cryptohub.adapters.NewsAdapter
 import com.example.cryptohub.databinding.FragmentNewsBinding
 import com.example.cryptohub.model.News
+import com.example.cryptohub.model.Success
 import com.example.cryptohub.networking.NetworkChecker
 import com.example.cryptohub.onClickInterfaces.NewsEvents
 
-class NewsFragment : Fragment(R.layout.fragment_news),NewsEvents {
+class NewsFragment : Fragment(R.layout.fragment_news), NewsEvents {
 
     private val adapter by lazy {
         NewsAdapter(this)
@@ -74,10 +75,12 @@ class NewsFragment : Fragment(R.layout.fragment_news),NewsEvents {
 
         networkStatusChecker.performIfConnectedToInternet {
 
-            remoteApi.getTopNews { newsResponse ->
+            remoteApi.getTopNews { result ->
                 val data = arrayListOf<News>()
-                newsResponse.data.forEach {
-                    data.add(News(it.imageurl,it.title,it.url,it.body,it.source))
+                if (result is Success) {
+                    result.data.data.forEach {
+                        data.add(News(it.imageurl, it.title, it.url, it.body, it.source))
+                    }
                 }
                 adapter.setData(data)
             }
@@ -85,8 +88,8 @@ class NewsFragment : Fragment(R.layout.fragment_news),NewsEvents {
     }
 
     override fun onNewsItemClicked(news: News) {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(news.url))
-                startActivity(intent)
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(news.url))
+        startActivity(intent)
     }
 
 

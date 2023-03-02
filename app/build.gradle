@@ -69,4 +69,13 @@ dependencies {
     // circularImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    // logging interceptor
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
+
+    // kotlin coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
+
+
 }
