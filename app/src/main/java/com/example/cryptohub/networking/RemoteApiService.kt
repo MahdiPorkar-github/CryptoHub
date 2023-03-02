@@ -1,5 +1,9 @@
 package com.example.cryptohub.networking
 
+import com.example.cryptohub.model.GetChartDataResponse
+import com.example.cryptohub.model.GetCoinsResponse
+import com.example.cryptohub.model.GetExchangeResponse
+import com.example.cryptohub.model.GetNewsResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -14,7 +18,7 @@ interface RemoteApiService {
     @GET("v2/news/")
     fun getTopNews(
         @Query("lang") lang: String = "EN", @Query("sortOrder") sortOrder: String = "popular"
-    ): Call<ResponseBody>
+    ): Call<GetNewsResponse>
 
 
     // get top coins
@@ -23,7 +27,7 @@ interface RemoteApiService {
     fun getTopCoins(
         @Query("tsym") to_symbol: String = "USD",
         @Query("limit") limit_data: Int = 20
-    ): Call<ResponseBody>
+    ): Call<GetCoinsResponse>
 
 
     // get exchange rates
@@ -31,7 +35,7 @@ interface RemoteApiService {
     @GET("price")
     fun getRates(
         @Query("fsym") fromSymbol: String = "USD", @Query("tsyms") toSymbol: String
-    ): Call<ResponseBody>
+    ): Call<GetExchangeResponse>
 
 
     // get chart data
@@ -43,6 +47,6 @@ interface RemoteApiService {
         @Query("limit") limit: Int,
         @Query("aggregate") aggregate: Int,
         @Query("tsym") toSymbol: String = "USD"
-    ): Call<ResponseBody>
+    ): Call<GetChartDataResponse>
 
 }

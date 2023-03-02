@@ -19,17 +19,22 @@ class RemoteApi(private val apiService: RemoteApiService) {
 
 
     fun getTopCoins(onCoinsReceived: (GetCoinsResponse) -> Unit) {
-        apiService.getTopCoins().enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                val jsonBody = response.body()?.string()
+        apiService.getTopCoins().enqueue(object : Callback<GetCoinsResponse> {
+            override fun onResponse(
+                call: Call<GetCoinsResponse>,
+                response: Response<GetCoinsResponse>
+            ) {
+                val jsonBody = response.body()
                 if (jsonBody == null) {
                     Log.v("null", "coinsOnResponse is null in onResponse remoteApi")
                 }
-                val data = gson.fromJson(jsonBody, GetCoinsResponse::class.java)
-                onCoinsReceived(data)
+                val data = response.body()
+                if (data != null) {
+                    onCoinsReceived(data)
+                }
             }
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+            override fun onFailure(call: Call<GetCoinsResponse>, t: Throwable) {
 
             }
 
@@ -39,46 +44,40 @@ class RemoteApi(private val apiService: RemoteApiService) {
 
     fun getTopNews(onNewsReceived: (GetNewsResponse) -> Unit) {
 
-        apiService.getTopNews().enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                val jsonBody = response.body()?.string()
-                if (jsonBody == null) {
+        apiService.getTopNews().enqueue(object : Callback<GetNewsResponse> {
+            override fun onResponse(
+                call: Call<GetNewsResponse>,
+                response: Response<GetNewsResponse>
+            ) {
+                val data = response.body()
+                if (data != null) {
+                    onNewsReceived(data)
+                } else {
                     Log.v("null", "newsOnResponse is null in onResponse remoteApi")
                 }
-
-                val data = gson.fromJson(jsonBody, GetNewsResponse::class.java)!!
-
-                onNewsReceived(data)
-
             }
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
+            override fun onFailure(call: Call<GetNewsResponse>, t: Throwable) {}
         })
     }
 
 
     fun getExchangeRates(onRateReceived: (GetExchangeResponse) -> Unit) {
         apiService.getRates(toSymbol = "USD,CAD,EUR,HKD,ISK,PHP,DKK,HUF,CZK,AUD,RON,SEK,IDR,INR,BRL,RUB,HRK,JPY,THB,CHF,SGD,PLN,BGN,CNY,NOK,NZD,ZAR,MXN,GBP,KRW,MYR")
-            .enqueue(object : Callback<ResponseBody> {
+            .enqueue(object : Callback<GetExchangeResponse> {
                 override fun onResponse(
-                    call: Call<ResponseBody>,
-                    response: Response<ResponseBody>
+                    call: Call<GetExchangeResponse>,
+                    response: Response<GetExchangeResponse>
                 ) {
-                    val jsonBody = response.body()?.string()
-                    if (jsonBody == null) {
+                    val data = response.body()
+                    if (data != null) {
+                        onRateReceived(data)
+                    } else {
                         Log.v("null", "exchangeOnResponse is null in onResponse remoteApi")
                     }
-                    val data = gson.fromJson(jsonBody, GetExchangeResponse::class.java)!!
-                    onRateReceived(data)
                 }
 
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    TODO("Not yet implemented")
-                }
-
+                override fun onFailure(call: Call<GetExchangeResponse>, t: Throwable) {}
             })
     }
 
@@ -86,7 +85,7 @@ class RemoteApi(private val apiService: RemoteApiService) {
     fun getChartData(
         period: String,
         symbol: String,
-        onChartDataReceived: (List<GetChartDataResponse.Data.Data>,GetChartDataResponse.Data.Data?) -> Unit
+        onChartDataReceived: (List<GetChartDataResponse.Data.Data>, GetChartDataResponse.Data.Data?) -> Unit
     ) {
 
         var histoPeriod = ""
@@ -135,27 +134,24 @@ class RemoteApi(private val apiService: RemoteApiService) {
         }
 
         apiService.getChartData(histoPeriod, symbol, limit, aggregate)
-            .enqueue(object : Callback<ResponseBody> {
+            .enqueue(object : Callback<GetChartDataResponse> {
 
                 override fun onResponse(
-                    call: Call<ResponseBody>,
-                    response: Response<ResponseBody>
+                    call: Call<GetChartDataResponse>,
+                    response: Response<GetChartDataResponse>
                 ) {
-                    val jsonBody = response.body()?.string()
-                    if (jsonBody == null) {
+                    val data = response.body()
+                    val dataList = data?.data?.data
+                    val baseLine = dataList?.maxByOrNull { it.close.toFloat() }
+
+                    if (dataList != null) {
+                        onChartDataReceived(dataList, baseLine)
+                    } else {
                         Log.v("null", "chartDataOnResponse is null in onResponse remoteApi")
                     }
-                    val data = gson.fromJson(jsonBody, GetChartDataResponse::class.java)!!
-
-                    val dataList = data.data.data
-                    val baseLine = dataList.maxByOrNull { it.close.toFloat() }
-
-                    onChartDataReceived(dataList,baseLine)
                 }
 
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    TODO("Not yet implemented")
-                }
+                override fun onFailure(call: Call<GetChartDataResponse>, t: Throwable) {}
 
             })
     }
