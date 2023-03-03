@@ -18,66 +18,27 @@ class RemoteApi(private val apiService: RemoteApiService) {
     private val gson = Gson()
 
 
-    fun getTopCoins(onCoinsReceived: (Result<GetCoinsResponse>) -> Unit) {
-        apiService.getTopCoins().enqueue(object : Callback<GetCoinsResponse> {
-            override fun onResponse(
-                call: Call<GetCoinsResponse>,
-                response: Response<GetCoinsResponse>
-            ) {
-                val data = response.body()
-                if (data != null) {
-                    onCoinsReceived(Success(data))
-                } else {
-                    onCoinsReceived(Failure(data))
-                    Log.v("null", "getTopCoins is null in onResponse remoteApi")
-                }
-            }
-
-            override fun onFailure(call: Call<GetCoinsResponse>, t: Throwable) {}
-
-        })
+    suspend fun getTopCoins(): Result<GetCoinsResponse> = try {
+        val data = apiService.getTopCoins()
+        Success(data)
+    } catch (error: Throwable) {
+        Failure(error)
     }
 
 
-    fun getTopNews(onNewsReceived: (Result<GetNewsResponse>) -> Unit) {
-
-        apiService.getTopNews().enqueue(object : Callback<GetNewsResponse> {
-            override fun onResponse(
-                call: Call<GetNewsResponse>,
-                response: Response<GetNewsResponse>
-            ) {
-                val data = response.body()
-                if (data != null) {
-                    onNewsReceived(Success(data))
-                } else {
-                    onNewsReceived(Failure(data))
-                    Log.v("null", "newsOnResponse is null in onResponse remoteApi")
-                }
-            }
-
-            override fun onFailure(call: Call<GetNewsResponse>, t: Throwable) {}
-        })
+    suspend fun getTopNews(): Result<GetNewsResponse> = try {
+        val data = apiService.getTopNews()
+        Success(data)
+    } catch (error: Throwable) {
+        Failure(error)
     }
 
 
-    fun getExchangeRates(onRateReceived: (Result<GetExchangeResponse>) -> Unit) {
-        apiService.getRates(toSymbol = "USD,CAD,EUR,HKD,ISK,PHP,DKK,HUF,CZK,AUD,RON,SEK,IDR,INR,BRL,RUB,HRK,JPY,THB,CHF,SGD,PLN,BGN,CNY,NOK,NZD,ZAR,MXN,GBP,KRW,MYR")
-            .enqueue(object : Callback<GetExchangeResponse> {
-                override fun onResponse(
-                    call: Call<GetExchangeResponse>,
-                    response: Response<GetExchangeResponse>
-                ) {
-                    val data = response.body()
-                    if (data != null) {
-                        onRateReceived(Success(data))
-                    } else {
-                        onRateReceived(Failure(data))
-                        Log.v("null", "exchangeOnResponse is null in onResponse remoteApi")
-                    }
-                }
-
-                override fun onFailure(call: Call<GetExchangeResponse>, t: Throwable) {}
-            })
+    suspend fun getExchangeRates() :  Result<GetExchangeResponse> = try {
+        val data = apiService.getRates(toSymbol = "USD,CAD,EUR,HKD,ISK,PHP,DKK,HUF,CZK,AUD,RON,SEK,IDR,INR,BRL,RUB,HRK,JPY,THB,CHF,SGD,PLN,BGN,CNY,NOK,NZD,ZAR,MXN,GBP,KRW,MYR")
+        Success(data)
+    } catch (error : Throwable) {
+        Failure(error)
     }
 
 

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptohub.App
@@ -19,6 +20,9 @@ import com.example.cryptohub.model.News
 import com.example.cryptohub.model.Success
 import com.example.cryptohub.networking.NetworkChecker
 import com.example.cryptohub.onClickInterfaces.NewsEvents
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class NewsFragment : Fragment(R.layout.fragment_news), NewsEvents {
 
@@ -74,15 +78,17 @@ class NewsFragment : Fragment(R.layout.fragment_news), NewsEvents {
     private fun getAllNews() {
 
         networkStatusChecker.performIfConnectedToInternet {
-
-            remoteApi.getTopNews { result ->
-                val data = arrayListOf<News>()
-                if (result is Success) {
-                    result.data.data.forEach {
-                        data.add(News(it.imageurl, it.title, it.url, it.body, it.source))
+            viewLifecycleOwner.lifecycleScope.launch {
+                val result = remoteApi.getTopNews()
+                withContext(Dispatchers.Main) {
+                    val data = arrayListOf<News>()
+                    if (result is Success) {
+                        result.data.data.forEach {
+                            data.add(News(it.imageurl,it.title,it.url,it.body,it.source))
+                        }
+                        adapter.setData(data)
                     }
                 }
-                adapter.setData(data)
             }
         }
     }

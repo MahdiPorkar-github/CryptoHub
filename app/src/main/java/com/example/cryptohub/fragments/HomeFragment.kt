@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptohub.App
@@ -23,6 +24,9 @@ import com.example.cryptohub.model.CoinAboutItem
 import com.example.cryptohub.model.Success
 import com.example.cryptohub.networking.*
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 const val SEND_COIN_DATA_TO_COIN_ACTIVITY = "coinData"
 const val SEND_ABOUT_DATA_TO_COIN_ACTIVITY = "aboutCoin"
@@ -112,36 +116,37 @@ class HomeFragment : Fragment(R.layout.fragment_home), CoinsAdapter.CoinsEvents 
     private fun getAllCoins() {
 
         networkStatusChecker.performIfConnectedToInternet {
-
-            remoteApi.getTopCoins { result ->
-                val data = arrayListOf<Coin>()
-                if (result is Success) {
-                    result.data.data.forEach {
-
-                        data.add(
-                            Coin(
-                                BASE_URL_IMAGE + it.coinInfo.imageUrl,
-                                it.coinInfo.fullName,
-                                it.dISPLAY.uSD.pRICE,
-                                it.rAW.uSD.cHANGEPCT24HOUR,
-                                it.rAW.uSD.mKTCAP,
-                                it.dISPLAY.uSD.oPEN24HOUR,
-                                it.dISPLAY.uSD.hIGH24HOUR,
-                                it.dISPLAY.uSD.lOW24HOUR,
-                                it.dISPLAY.uSD.cHANGE24HOUR,
-                                it.coinInfo.algorithm,
-                                it.dISPLAY.uSD.tOTALVOLUME24H,
-                                it.dISPLAY.uSD.sUPPLY,
-                                it.dISPLAY.uSD.mKTCAP,
-                                it.coinInfo.name,
-                                it.dISPLAY.uSD.cHANGEPCT24HOUR
+            viewLifecycleOwner.lifecycleScope.launch {
+                val result = remoteApi.getTopCoins()
+                withContext(Dispatchers.Main) {
+                    val data = arrayListOf<Coin>()
+                    if (result is Success) {
+                        result.data.data.forEach {
+                            data.add(
+                                Coin(
+                                    BASE_URL_IMAGE + it.coinInfo.imageUrl,
+                                    it.coinInfo.fullName,
+                                    it.dISPLAY.uSD.pRICE,
+                                    it.rAW.uSD.cHANGEPCT24HOUR,
+                                    it.rAW.uSD.mKTCAP,
+                                    it.dISPLAY.uSD.oPEN24HOUR,
+                                    it.dISPLAY.uSD.hIGH24HOUR,
+                                    it.dISPLAY.uSD.lOW24HOUR,
+                                    it.dISPLAY.uSD.cHANGE24HOUR,
+                                    it.coinInfo.algorithm,
+                                    it.dISPLAY.uSD.tOTALVOLUME24H,
+                                    it.dISPLAY.uSD.sUPPLY,
+                                    it.dISPLAY.uSD.mKTCAP,
+                                    it.coinInfo.name,
+                                    it.dISPLAY.uSD.cHANGEPCT24HOUR
+                                )
                             )
-                        )
+                        }
+                        localData = data.clone() as ArrayList<Coin>
+                        filteredCoins = data.clone() as ArrayList<Coin>
+                        adapter.setData(filteredCoins)
                     }
                 }
-                localData = data.clone() as ArrayList<Coin>
-                filteredCoins = data.clone() as ArrayList<Coin>
-                adapter.setData(filteredCoins)
             }
         }
     }

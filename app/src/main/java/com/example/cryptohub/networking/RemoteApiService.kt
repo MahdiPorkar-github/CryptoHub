@@ -15,24 +15,22 @@ interface RemoteApiService {
 
     // get top news
     @GET("v2/news/")
-    fun getTopNews(
-        @Query("lang") lang: String = "EN", @Query("sortOrder") sortOrder: String = "popular"
-    ): Call<GetNewsResponse>
+   suspend fun getTopNews(@Query("lang") lang: String = "EN", @Query("sortOrder") sortOrder: String = "popular"): GetNewsResponse
 
 
     // get top coins
     @GET("top/totalvolfull")
-    fun getTopCoins(
+    suspend fun getTopCoins(
         @Query("tsym") to_symbol: String = "USD",
         @Query("limit") limit_data: Int = 20
-    ): Call<GetCoinsResponse>
+    ): GetCoinsResponse
 
 
     // get exchange rates
     @GET("price")
-    fun getRates(
+    suspend fun getRates(
         @Query("fsym") fromSymbol: String = "USD", @Query("tsyms") toSymbol: String
-    ): Call<GetExchangeResponse>
+    ): GetExchangeResponse
 
 
     // get chart data

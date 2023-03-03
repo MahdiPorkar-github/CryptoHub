@@ -7,17 +7,18 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.cryptohub.App
 import com.example.cryptohub.R
 import com.example.cryptohub.databinding.FragmentConvertBinding
 import com.example.cryptohub.model.GetExchangeResponse
 import com.example.cryptohub.model.Success
 import com.example.cryptohub.networking.NetworkChecker
+import kotlinx.coroutines.launch
 import java.math.RoundingMode
 
 class ConvertFragment : Fragment(R.layout.fragment_convert) {
@@ -99,7 +100,8 @@ class ConvertFragment : Fragment(R.layout.fragment_convert) {
             if (checkIfValid()) {
                 convertCurrency(binding.spOrigin.adapter.getItem(originPosition).toString())
 
-                val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                val imm =
+                    activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(requireView().windowToken, 0)
 
             } else {
@@ -607,9 +609,11 @@ class ConvertFragment : Fragment(R.layout.fragment_convert) {
     private fun getExchangeRates() {
 
         networkChecker.performIfConnectedToInternet {
-            remoteApi.getExchangeRates { result ->
-                if (result is Success)
-                onRatesReceived(result.data)
+            viewLifecycleOwner.lifecycleScope.launch {
+                val result = remoteApi.getExchangeRates()
+                if (result is Success) {
+                    onRatesReceived(result.data)
+                }
             }
         }
     }
@@ -623,7 +627,7 @@ class ConvertFragment : Fragment(R.layout.fragment_convert) {
 
     private fun fillExchangeArr(exchangeResponse: GetExchangeResponse) {
         exchangeArr.apply {
-            add(exchangeResponse.uSD.toDouble())
+            add(exchangeResponse.uSD)
             add(exchangeResponse.cAD)
             add(exchangeResponse.eUR)
             add(exchangeResponse.hKD)

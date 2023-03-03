@@ -63,7 +63,7 @@ data class GetExchangeResponse(
     @SerializedName("THB")
     val tHB: Double,
     @SerializedName("USD")
-    val uSD: Int,
+    val uSD: Double,
     @SerializedName("ZAR")
     val zAR: Double
 )
