@@ -1,11 +1,8 @@
 package com.example.cryptohub.networking
 
-import android.util.Log
+
 import com.example.cryptohub.model.*
 import com.google.gson.Gson
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 /**
@@ -42,11 +39,10 @@ class RemoteApi(private val apiService: RemoteApiService) {
     }
 
 
-    fun getChartData(
+    suspend fun getChartData(
         period: String,
-        symbol: String,
-        onChartDataReceived: (List<GetChartDataResponse.Data.Data>, GetChartDataResponse.Data.Data?) -> Unit
-    ) {
+        symbol: String
+    ) : Result<Pair<List<GetChartDataResponse.Data.Data>, GetChartDataResponse.Data.Data?>> = try {
 
         var histoPeriod = ""
         var limit = 30
@@ -90,30 +86,14 @@ class RemoteApi(private val apiService: RemoteApiService) {
                 aggregate = 30
                 limit = 2000
             }
-
         }
+        val data = apiService.getChartData(histoPeriod,symbol,limit,aggregate)
+        val dataList = data.data.data
+        val baseLine = dataList.maxByOrNull { it.close.toFloat() }
+        Success(Pair(dataList,baseLine))
 
-        apiService.getChartData(histoPeriod, symbol, limit, aggregate)
-            .enqueue(object : Callback<GetChartDataResponse> {
-
-                override fun onResponse(
-                    call: Call<GetChartDataResponse>,
-                    response: Response<GetChartDataResponse>
-                ) {
-                    val data = response.body()
-                    val dataList = data?.data?.data
-                    val baseLine = dataList?.maxByOrNull { it.close.toFloat() }
-
-                    if (dataList != null) {
-                        onChartDataReceived(dataList, baseLine)
-                    } else {
-                        Log.v("null", "chartDataOnResponse is null in onResponse remoteApi")
-                    }
-                }
-
-                override fun onFailure(call: Call<GetChartDataResponse>, t: Throwable) {}
-
-            })
+    } catch (error : Throwable) {
+        Failure(error)
     }
 
 

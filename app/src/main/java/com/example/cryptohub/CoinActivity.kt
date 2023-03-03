@@ -4,9 +4,8 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.cryptohub.adapters.ChartAdapter
 import com.example.cryptohub.databinding.ActivityCoinBinding
 import com.example.cryptohub.fragments.SEND_ABOUT_DATA_TO_COIN_ACTIVITY
@@ -14,7 +13,9 @@ import com.example.cryptohub.fragments.SEND_COIN_DATA_TO_COIN_ACTIVITY
 import com.example.cryptohub.model.Coin
 import com.example.cryptohub.model.CoinAboutItem
 import com.example.cryptohub.model.GetChartDataResponse
+import com.example.cryptohub.model.Success
 import com.example.cryptohub.networking.*
+import kotlinx.coroutines.launch
 
 class CoinActivity : AppCompatActivity() {
 
@@ -130,7 +131,8 @@ class CoinActivity : AppCompatActivity() {
         binding.layoutChart.sparkViewMain.setScrubListener {
 
             if (it != null) {
-                binding.layoutChart.txtChartPrice.text = "$ " + (it as GetChartDataResponse.Data.Data).close.toString()
+                binding.layoutChart.txtChartPrice.text =
+                    "$ " + (it as GetChartDataResponse.Data.Data).close.toString()
             } else {
                 binding.layoutChart.txtChartPrice.text = coin.coinPrice
             }
@@ -141,7 +143,10 @@ class CoinActivity : AppCompatActivity() {
     private fun getChartData() {
 
         var period = HOUR
-        requestAndShowChartData(period)
+        // how should i launch this coroutine inside an activity?
+        lifecycleScope.launch {
+            requestAndShowChartData(period)
+        }
         binding.layoutChart.radioGroupCoinsDetail.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.radio_12h -> period = HOUR
@@ -152,19 +157,19 @@ class CoinActivity : AppCompatActivity() {
                 R.id.radio_1y -> period = YEAR
                 R.id.radio_all -> period = ALL
             }
-            requestAndShowChartData(period)
+            lifecycleScope.launch {
+                requestAndShowChartData(period)
+            }
         }
     }
 
 
-    private fun requestAndShowChartData(period: String) {
-
+    private suspend fun requestAndShowChartData(period: String) {
         networkStatusChecker.performIfConnectedToInternet {
-            remoteApi.getChartData(period, coin.currencySymbol) { list, baseLine ->
-
-                val chartAdapter = ChartAdapter(list, baseLine?.open.toString())
+            val result = remoteApi.getChartData(period, coin.currencySymbol)
+            if (result is Success) {
+                val chartAdapter = ChartAdapter(result.data.first,result.data.second?.open.toString())
                 binding.layoutChart.sparkViewMain.adapter = chartAdapter
-
             }
         }
     }

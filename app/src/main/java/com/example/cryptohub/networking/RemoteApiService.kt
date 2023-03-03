@@ -35,12 +35,12 @@ interface RemoteApiService {
 
     // get chart data
     @GET("v2/{period}")
-    fun getChartData(
+    suspend fun getChartData(
         @Path("period") period : String,
         @Query("fsym") fromSymbol: String,
         @Query("limit") limit: Int,
         @Query("aggregate") aggregate: Int,
         @Query("tsym") toSymbol: String = "USD"
-    ): Call<GetChartDataResponse>
+    ): GetChartDataResponse
 
 }
