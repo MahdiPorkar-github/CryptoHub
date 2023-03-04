@@ -18,10 +18,7 @@ import com.example.cryptohub.CoinActivity
 import com.example.cryptohub.R
 import com.example.cryptohub.adapters.CoinsAdapter
 import com.example.cryptohub.databinding.FragmentHomeBinding
-import com.example.cryptohub.model.Coin
-import com.example.cryptohub.model.CoinAboutData
-import com.example.cryptohub.model.CoinAboutItem
-import com.example.cryptohub.model.Success
+import com.example.cryptohub.model.*
 import com.example.cryptohub.networking.*
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
@@ -34,8 +31,8 @@ const val SEND_ABOUT_DATA_TO_COIN_ACTIVITY = "aboutCoin"
 class HomeFragment : Fragment(R.layout.fragment_home), CoinsAdapter.CoinsEvents {
 
     lateinit var binding: FragmentHomeBinding
-    private lateinit var localData: ArrayList<Coin>
-    private lateinit var filteredCoins: ArrayList<Coin>
+    private lateinit var localData: ArrayList<GetCoinsResponse.Data>
+    private lateinit var filteredCoins: ArrayList<GetCoinsResponse.Data>
     private lateinit var aboutCoinsMap: MutableMap<String, CoinAboutItem>
     private val adapter by lazy {
         CoinsAdapter(this)
@@ -95,7 +92,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), CoinsAdapter.CoinsEvents 
 
         if (editTextInput.isNotEmpty()) {
             val filteredList = filteredCoins.filter { coin ->
-                coin.coinName!!.contains(editTextInput)
+                coin.coinInfo.coinName!!.contains(editTextInput)
             }
             adapter.setData(filteredList)
         } else {
@@ -119,32 +116,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), CoinsAdapter.CoinsEvents 
             viewLifecycleOwner.lifecycleScope.launch {
                 val result = remoteApi.getTopCoins()
                 withContext(Dispatchers.Main) {
-                    val data = arrayListOf<Coin>()
                     if (result is Success) {
-                        result.data.data.forEach {
-                            data.add(
-                                Coin(
-                                    BASE_URL_IMAGE + it.coinInfo.imageUrl,
-                                    it.coinInfo.fullName,
-                                    it.dISPLAY.uSD.pRICE,
-                                    it.rAW.uSD.cHANGEPCT24HOUR,
-                                    it.rAW.uSD.mKTCAP,
-                                    it.dISPLAY.uSD.oPEN24HOUR,
-                                    it.dISPLAY.uSD.hIGH24HOUR,
-                                    it.dISPLAY.uSD.lOW24HOUR,
-                                    it.dISPLAY.uSD.cHANGE24HOUR,
-                                    it.coinInfo.algorithm,
-                                    it.dISPLAY.uSD.tOTALVOLUME24H,
-                                    it.dISPLAY.uSD.sUPPLY,
-                                    it.dISPLAY.uSD.mKTCAP,
-                                    it.coinInfo.name,
-                                    it.dISPLAY.uSD.cHANGEPCT24HOUR
-                                )
-                            )
-                        }
-                        localData = data.clone() as ArrayList<Coin>
-                        filteredCoins = data.clone() as ArrayList<Coin>
-                        adapter.setData(filteredCoins)
+
+                        localData = result.data.data.toMutableList() as ArrayList<GetCoinsResponse.Data>
+                        filteredCoins = result.data.data.toMutableList() as ArrayList<GetCoinsResponse.Data>
+                        adapter.setData(result.data.data)
                     }
                 }
             }
@@ -174,13 +150,13 @@ class HomeFragment : Fragment(R.layout.fragment_home), CoinsAdapter.CoinsEvents 
             .use { it?.readText() }
     }
 
-    override fun onCoinItemClicked(coin: Coin) {
+    override fun onCoinItemClicked(coin: GetCoinsResponse.Data) {
 
         val intent = Intent(activity, CoinActivity::class.java)
         intent.putExtra(SEND_COIN_DATA_TO_COIN_ACTIVITY, coin)
 
         val bundle = Bundle()
-        bundle.putParcelable(SEND_ABOUT_DATA_TO_COIN_ACTIVITY, aboutCoinsMap[coin.currencySymbol])
+        bundle.putParcelable(SEND_ABOUT_DATA_TO_COIN_ACTIVITY, aboutCoinsMap[coin.coinInfo.currencySymbol])
         intent.putExtra("bundle", bundle)
         startActivity(intent)
     }
@@ -197,17 +173,18 @@ class HomeFragment : Fragment(R.layout.fragment_home), CoinsAdapter.CoinsEvents 
                 }
                 R.id.radio_Gainers -> {
                     val gainersList = localData.filter {
-                        !it.changePctToday.contains("-") && it.changePctToday != "0.00"
+                        it.dISPLAY.uSD.changePctToday
+                        !it.dISPLAY.uSD.changePctToday.contains("-") && it.dISPLAY.uSD.changePctToday != "0.00"
                     }
-                    filteredCoins = gainersList as ArrayList<Coin>
+                    filteredCoins = gainersList as ArrayList<GetCoinsResponse.Data>
                     adapter.setData(filteredCoins)
                 }
                 R.id.radio_losers -> {
 
                     val losersList = localData.filter {
-                        it.changePctToday.contains("-")
+                        it.dISPLAY.uSD.changePctToday.contains("-")
                     }
-                    filteredCoins = losersList as ArrayList<Coin>
+                    filteredCoins = losersList as ArrayList<GetCoinsResponse.Data>
                     adapter.setData(filteredCoins)
                 }
             }

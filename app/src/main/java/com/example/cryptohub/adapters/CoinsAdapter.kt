@@ -7,30 +7,32 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cryptohub.R
 import com.example.cryptohub.databinding.ItemRecyclerMarketBinding
-import com.example.cryptohub.model.Coin
+import com.example.cryptohub.model.GetCoinsResponse
+import com.example.cryptohub.networking.BASE_URL_IMAGE
 import java.math.RoundingMode
 
 class CoinsAdapter(private val coinsEvents: CoinsEvents) : RecyclerView.Adapter<CoinsAdapter.CoinsViewHolder>() {
 
-    private val data: ArrayList<Coin> = arrayListOf()
+    private val data: ArrayList<GetCoinsResponse.Data> = arrayListOf()
 
     inner class CoinsViewHolder(private val binding: ItemRecyclerMarketBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
 
-        fun bindData(coin: Coin) {
+        fun bindData(coin: GetCoinsResponse.Data) {
 
-            binding.txtCoinName.text = coin.coinName
-            setTxtChange(coin.change, binding, coin)
-            binding.txtPrice.text = coin.coinPrice
 
-            val marketCap = coin.marketCap / 1000000000
+            binding.txtCoinName.text = coin.coinInfo.coinName
+            setTxtChange(coin.rAW.uSD.change, binding, coin)
+            binding.txtPrice.text = coin.dISPLAY.uSD.coinPrice
+
+            val marketCap = coin.rAW.uSD.marketCap / 1000000000
             binding.txtMarketCap.text =
                 marketCap.toBigDecimal().setScale(1, RoundingMode.HALF_UP).toString() + " B"
 
             Glide
                 .with(binding.root)
-                .load( coin.coinImg)
+                .load( BASE_URL_IMAGE + coin.coinInfo.coinImg)
                 .into(binding.imgItem)
 
 
@@ -57,14 +59,14 @@ class CoinsAdapter(private val coinsEvents: CoinsEvents) : RecyclerView.Adapter<
     override fun getItemCount() = data.size
 
 
-    fun setData(data: List<Coin>) {
+    fun setData(data: List<GetCoinsResponse.Data>) {
         this.data.clear()
         this.data.addAll(data)
         notifyDataSetChanged()
     }
 
 
-    private fun setTxtChange(change: Double, binding: ItemRecyclerMarketBinding, coin: Coin) {
+    private fun setTxtChange(change: Double, binding: ItemRecyclerMarketBinding, coin: GetCoinsResponse.Data) {
 
         if (change > 0) {
             binding.txtChange.setTextColor(
@@ -74,7 +76,7 @@ class CoinsAdapter(private val coinsEvents: CoinsEvents) : RecyclerView.Adapter<
                 )
             )
             binding.txtChange.text =
-                coin.change.toString().substring(0, 4) + "%"
+                coin.rAW.uSD.change.toString().substring(0, 4) + "%"
         } else if (change < 0) {
             binding.txtChange.setTextColor(
                 ContextCompat.getColor(
@@ -83,7 +85,7 @@ class CoinsAdapter(private val coinsEvents: CoinsEvents) : RecyclerView.Adapter<
                 )
             )
             binding.txtChange.text =
-                coin.change.toString().substring(0, 5) + "%"
+                coin.rAW.uSD.change.toString().substring(0, 5) + "%"
         } else {
             binding.txtChange.text = "0%"
             binding.txtChange.setTextColor(
@@ -99,7 +101,7 @@ class CoinsAdapter(private val coinsEvents: CoinsEvents) : RecyclerView.Adapter<
 
 
     interface CoinsEvents {
-        fun onCoinItemClicked(coin: Coin)
+        fun onCoinItemClicked(coin: GetCoinsResponse.Data)
     }
 
 }

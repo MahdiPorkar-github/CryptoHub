@@ -10,17 +10,14 @@ import com.example.cryptohub.adapters.ChartAdapter
 import com.example.cryptohub.databinding.ActivityCoinBinding
 import com.example.cryptohub.fragments.SEND_ABOUT_DATA_TO_COIN_ACTIVITY
 import com.example.cryptohub.fragments.SEND_COIN_DATA_TO_COIN_ACTIVITY
-import com.example.cryptohub.model.Coin
-import com.example.cryptohub.model.CoinAboutItem
-import com.example.cryptohub.model.GetChartDataResponse
-import com.example.cryptohub.model.Success
+import com.example.cryptohub.model.*
 import com.example.cryptohub.networking.*
 import kotlinx.coroutines.launch
 
 class CoinActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCoinBinding
-    private lateinit var coin: Coin
+    private lateinit var coin: GetCoinsResponse.Data
     private var coinAbout: CoinAboutItem? = null
     private val remoteApi = App.remoteApi
     private val networkStatusChecker by lazy {
@@ -43,19 +40,19 @@ class CoinActivity : AppCompatActivity() {
         initChartUi()
         initAboutUi()
 
-        binding.layoutToolbar.toolbarTextView.text = coin.coinName
+        binding.layoutToolbar.toolbarTextView.text = coin.coinInfo.coinName
     }
 
     private fun initStatisticsUi() {
 
-        binding.layoutStatistics.tvOpenAmount.text = coin.open
-        binding.layoutStatistics.tvTodaysHighAmount.text = coin.todaysHigh
-        binding.layoutStatistics.tvTodayLowAmount.text = coin.todaysLow
-        binding.layoutStatistics.tvChangeTodayAmount.text = coin.todaysChange
-        binding.layoutStatistics.tvAlgorithm.text = coin.algorithm
-        binding.layoutStatistics.tvTotalVolume.text = coin.totalVolume
-        binding.layoutStatistics.tvAvgMarketCapAmount.text = coin.marketCapDisplay
-        binding.layoutStatistics.tvSupplyNumber.text = coin.supply
+        binding.layoutStatistics.tvOpenAmount.text = coin.dISPLAY.uSD.open
+        binding.layoutStatistics.tvTodaysHighAmount.text = coin.dISPLAY.uSD.todaysHigh
+        binding.layoutStatistics.tvTodayLowAmount.text = coin.dISPLAY.uSD.todaysLow
+        binding.layoutStatistics.tvChangeTodayAmount.text = coin.dISPLAY.uSD.todaysChange
+        binding.layoutStatistics.tvAlgorithm.text = coin.coinInfo.algorithm
+        binding.layoutStatistics.tvTotalVolume.text = coin.dISPLAY.uSD.totalVolume
+        binding.layoutStatistics.tvAvgMarketCapAmount.text = coin.dISPLAY.uSD.marketCapDisplay
+        binding.layoutStatistics.tvSupplyNumber.text = coin.dISPLAY.uSD.supply
 
     }
 
@@ -87,9 +84,9 @@ class CoinActivity : AppCompatActivity() {
 
     private fun initChartUi() {
         getChartData()
-        binding.layoutChart.txtChartPrice.text = coin.coinPrice
-        binding.layoutChart.txtChartChange2.text = coin.changePctToday + "%"
-        val change = coin.changePctToday
+        binding.layoutChart.txtChartPrice.text = coin.dISPLAY.uSD.coinPrice
+        binding.layoutChart.txtChartChange2.text = coin.dISPLAY.uSD.changePctToday + "%"
+        val change = coin.dISPLAY.uSD.changePctToday
         if (change.contains("-")) {
 
             val color = ContextCompat.getColor(
@@ -125,7 +122,7 @@ class CoinActivity : AppCompatActivity() {
             binding.layoutChart.txtChartUpDown.text = "▲"
         }
 
-        binding.layoutChart.txtChartChange1.text = " " + coin.todaysChange
+        binding.layoutChart.txtChartChange1.text = " " + coin.dISPLAY.uSD.todaysChange
 
 
         binding.layoutChart.sparkViewMain.setScrubListener {
@@ -134,7 +131,7 @@ class CoinActivity : AppCompatActivity() {
                 binding.layoutChart.txtChartPrice.text =
                     "$ " + (it as GetChartDataResponse.Data.Data).close.toString()
             } else {
-                binding.layoutChart.txtChartPrice.text = coin.coinPrice
+                binding.layoutChart.txtChartPrice.text = coin.dISPLAY.uSD.coinPrice
             }
 
         }
@@ -143,7 +140,6 @@ class CoinActivity : AppCompatActivity() {
     private fun getChartData() {
 
         var period = HOUR
-        // how should i launch this coroutine inside an activity?
         lifecycleScope.launch {
             requestAndShowChartData(period)
         }
@@ -166,7 +162,7 @@ class CoinActivity : AppCompatActivity() {
 
     private suspend fun requestAndShowChartData(period: String) {
         networkStatusChecker.performIfConnectedToInternet {
-            val result = remoteApi.getChartData(period, coin.currencySymbol)
+            val result = remoteApi.getChartData(period, coin.coinInfo.currencySymbol)
             if (result is Success) {
                 val chartAdapter = ChartAdapter(result.data.first,result.data.second?.open.toString())
                 binding.layoutChart.sparkViewMain.adapter = chartAdapter

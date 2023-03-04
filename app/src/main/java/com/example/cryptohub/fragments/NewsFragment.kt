@@ -16,7 +16,7 @@ import com.example.cryptohub.App
 import com.example.cryptohub.R
 import com.example.cryptohub.adapters.NewsAdapter
 import com.example.cryptohub.databinding.FragmentNewsBinding
-import com.example.cryptohub.model.News
+import com.example.cryptohub.model.GetNewsResponse
 import com.example.cryptohub.model.Success
 import com.example.cryptohub.networking.NetworkChecker
 import com.example.cryptohub.onClickInterfaces.NewsEvents
@@ -81,19 +81,15 @@ class NewsFragment : Fragment(R.layout.fragment_news), NewsEvents {
             viewLifecycleOwner.lifecycleScope.launch {
                 val result = remoteApi.getTopNews()
                 withContext(Dispatchers.Main) {
-                    val data = arrayListOf<News>()
                     if (result is Success) {
-                        result.data.data.forEach {
-                            data.add(News(it.imageurl,it.title,it.url,it.body,it.source))
-                        }
-                        adapter.setData(data)
+                        adapter.setData(result.data.data)
                     }
                 }
             }
         }
     }
 
-    override fun onNewsItemClicked(news: News) {
+    override fun onNewsItemClicked(news: GetNewsResponse.Data) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(news.url))
         startActivity(intent)
     }

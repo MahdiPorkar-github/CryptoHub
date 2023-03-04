@@ -12,8 +12,6 @@ import com.google.gson.Gson
 
 class RemoteApi(private val apiService: RemoteApiService) {
 
-    private val gson = Gson()
-
 
     suspend fun getTopCoins(): Result<GetCoinsResponse> = try {
         val data = apiService.getTopCoins()

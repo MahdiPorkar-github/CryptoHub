@@ -15,7 +15,10 @@ interface RemoteApiService {
 
     // get top news
     @GET("v2/news/")
-   suspend fun getTopNews(@Query("lang") lang: String = "EN", @Query("sortOrder") sortOrder: String = "popular"): GetNewsResponse
+    suspend fun getTopNews(
+        @Query("lang") lang: String = "EN",
+        @Query("sortOrder") sortOrder: String = "popular"
+    ): GetNewsResponse
 
 
     // get top coins
@@ -36,7 +39,7 @@ interface RemoteApiService {
     // get chart data
     @GET("v2/{period}")
     suspend fun getChartData(
-        @Path("period") period : String,
+        @Path("period") period: String,
         @Query("fsym") fromSymbol: String,
         @Query("limit") limit: Int,
         @Query("aggregate") aggregate: Int,
